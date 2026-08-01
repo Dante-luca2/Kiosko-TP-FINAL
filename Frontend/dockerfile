@@ -1,0 +1,7 @@
+FROM nginx:alpine
+
+COPY . /usr/share/nginx/html
+
+EXPOSE 80
+
+#nginx =  cumple la consigna de Docker Compose, y sirve los archivos por http://localhost:8080 como corresponde para que el fetch() al backend funcione bien.
