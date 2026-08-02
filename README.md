@@ -188,5 +188,4 @@ Proveedores: listado, alta/edición/baja lógica.
 Empleados: listado, alta/edición/baja lógica, con el dato de quién es el dueño.
 Registrar movimiento: una pantalla (o tres, según cómo se organice) para cargar una Venta, una Compra o un Ajuste, seleccionando quién lo está registrando (empleado o dueño).
 Historial de movimientos: consulta combinada de Venta + Compra + Ajuste, filtrable por producto o por período.
-Reportes: productos más vendidos, ganancia/margen estimado, historial de caja por período, listado de productos a reponer.
-
+Reportes: productos más vendidos, ganancia/margen estimado, historial de caja por período, listado de productos a reponer
