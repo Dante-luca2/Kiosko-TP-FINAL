@@ -1,6 +1,17 @@
 # CONTRATO API
 
-## EDNPOINTS DE API
+## Notas generales
+
+- Todos los endpoints cuelgan del prefijo `/api`.
+- **Venta, Compra y Ajuste son registros de auditoría**: no se editan (no tienen `PUT`; para corregir un error se carga un nuevo movimiento, nunca se modifica el original). Sí se pueden eliminar (`DELETE`) — como no tienen baja lógica, el `DELETE` borra la fila físicamente, pero antes revierte su efecto sobre el `stock` del producto para no dejar el inventario desincronizado.
+- **Producto, Proveedor y Empleados** usan baja lógica: el `DELETE` no borra la fila, marca `activo: false`.
+- **Categoría** no tiene `DELETE`: es una tabla de referencia simple, se gestiona con alta/edición nada más.
+- Todos los montos (`precio`, `precio_unitario`, `descuento`, `sueldo`) son **enteros** (pesos, sin decimales) — coincide con el tipo de dato en la base.
+- Formato de error estándar para cualquier endpoint que falle una validación:
+  ```json
+  { "error": "descripción del problema" }
+  ```
+  Status `400` para validaciones (ej. stock insuficiente, campo obligatorio faltante), `404` si el recurso no existe.
 
 ## PRODUCTO
 
@@ -9,106 +20,92 @@
 Objetivo: Obtener todos los productos de la tienda, opcionalmente filtrados.
 
 **Query params** (todos opcionales, se pueden combinar):
-- `marca` (string): filtra por marca exacta.
-- `tipo` (string: `normal` | `limitado` | `estacional`): filtra por tipo de producto.
-- `categoria_id` (int): filtra por categoría.
+- `marca` (string): búsqueda parcial por marca (`LIKE %marca%`).
+- `tipo` (string: `normal` | `limitado` | `estacional`): filtra por tipo exacto.
+- `categoria_id` (int): filtra por categoría exacta.
 
 **Ejemplos**:
-- `GET /api/productos` → todos los productos.
-- `GET /api/productos?marca=Coca Cola` → solo productos de esa marca.
+- `GET /api/productos` → todos los productos activos.
+- `GET /api/productos?marca=coca` → productos cuya marca contenga "coca".
 - `GET /api/productos?categoria_id=3&tipo=normal` → combinando dos filtros a la vez.
 
 **Respuesta**:
-
 ```json
 [
   {
     "id": 1,
     "nombre": "Coca Cola 500ml",
+    "descripcion": "Gaseosa cola, botella descartable",
     "marca": "Coca Cola",
+    "precio": 1200,
+    "stock": 24,
     "categoria_id": 3,
     "tipo": "normal",
-    ...
+    "stock_minimo": 10,
+    "imagen_url": "https://miapp.com/img/coca500.png",
+    "activo": true
   }
 ]
 ```
 
-
 ### GET /api/productos/:id
 
-Objetivo: Obtener un producto de la tienda
+Objetivo: Obtener un producto de la tienda.
 
 **Respuesta**:
-
 ```json
 {
   "id": 1,
   "nombre": "Coca Cola 500ml",
   "descripcion": "Gaseosa cola, botella descartable",
   "marca": "Coca Cola",
-  "precio": 1200.50,
+  "precio": 1200,
   "stock": 24,
   "categoria_id": 3,
   "tipo": "normal",
   "stock_minimo": 10,
   "imagen_url": "https://miapp.com/img/coca500.png",
+  "activo": true
 }
 ```
 
 ### POST /api/productos
 
-Objetivo: Crear un producto en la tienda
+Objetivo: Crear un producto en la tienda.
 
 **Request**:
-
 ```json
 {
   "nombre": "Coca Cola 500ml",
   "descripcion": "Gaseosa cola, botella descartable",
   "marca": "Coca Cola",
-  "precio": 1200.50,
+  "precio": 1200,
   "stock": 24,
   "categoria_id": 3,
   "tipo": "normal",
   "stock_minimo": 10,
-  "imagen_url": "https://miapp.com/img/coca500.png",
+  "imagen_url": "https://miapp.com/img/coca500.png"
 }
 ```
-
 
 ### PUT /api/productos/:id
 
-Objetivo: Modificar un producto en la tienda
+Objetivo: Modificar un producto en la tienda.
 
-**Request**:
-
-```json
-{
-  "nombre": "Coca Cola 500ml",
-  "descripcion": "Gaseosa cola, botella descartable",
-  "marca": "Coca Cola",
-  "precio": 1200.50,
-  "stock": 24,
-  "categoria_id": 3,
-  "tipo": "normal",
-  "stock_minimo": 10,
-  "imagen_url": "https://miapp.com/img/coca500.png",
-}
-```
+**Request**: igual al del `POST`.
 
 ### DELETE /api/productos/:id
 
-Objetivo: Dar de baja lógica un producto de la tienda (no se borra físicamente, se marca `activo: false`)
+Objetivo: Dar de baja lógica un producto de la tienda (no se borra físicamente, se marca `activo: false`).
 
 **Respuesta**:
-
 ```json
 {
   "id": 1,
   "nombre": "Coca Cola 500ml",
   "descripcion": "Gaseosa cola, botella descartable",
   "marca": "Coca Cola",
-  "precio": 1200.50,
+  "precio": 1200,
   "stock": 24,
   "categoria_id": 3,
   "tipo": "normal",
@@ -125,14 +122,13 @@ Objetivo: Dar de baja lógica un producto de la tienda (no se borra físicamente
 Objetivo: Obtener todos los proveedores de la tienda, opcionalmente filtrados.
 
 **Query params** (todos opcionales, se pueden combinar):
-- `nombre` (string): filtra por nombre exacta.
+- `nombre` (string): búsqueda parcial por nombre (`LIKE %nombre%`).
 
 **Ejemplos**:
-- `GET /api/proveedores` → todos los proveedores.
-- `GET /api/proveedores?nombre=Coca Cola` → solo proveedores de esa marca.
+- `GET /api/proveedores` → todos los proveedores activos.
+- `GET /api/proveedores?nombre=julian` → proveedores cuyo nombre contenga "julian".
 
 **Respuesta**:
-
 ```json
 [
   {
@@ -151,18 +147,16 @@ Objetivo: Obtener todos los proveedores de la tienda, opcionalmente filtrados.
 
 Objetivo: Obtener un proveedor de la tienda.
 
-
 **Respuesta**:
-
 ```json
-
 {
-    "id": 1,
-    "nombre": "Julian",
-    "contacto": "John Doe",
-    "telefono": "123456789",
-    "rubro": "Coca Cola",
-    "direccion": "Calle 123",
+  "id": 1,
+  "nombre": "Julian",
+  "contacto": "John Doe",
+  "telefono": "123456789",
+  "rubro": "Coca Cola",
+  "direccion": "Calle 123",
+  "activo": true
 }
 ```
 
@@ -171,15 +165,13 @@ Objetivo: Obtener un proveedor de la tienda.
 Objetivo: Crear un proveedor en la tienda.
 
 **Request**:
-
 ```json
 {
-    "id": 1,
-    "nombre": "Julian",
-    "contacto": "John Doe",
-    "telefono": "123456789",
-    "rubro": "Coca Cola",
-    "direccion": "Calle 123",
+  "nombre": "Julian",
+  "contacto": "John Doe",
+  "telefono": "123456789",
+  "rubro": "Coca Cola",
+  "direccion": "Calle 123"
 }
 ```
 
@@ -187,52 +179,43 @@ Objetivo: Crear un proveedor en la tienda.
 
 Objetivo: Modificar un proveedor en la tienda.
 
-**Request**:
-
-```json
-{
-    "id": 1,
-    "nombre": "Julian",
-    "contacto": "John Doe",
-    "telefono": "123456789",
-    "rubro": "Coca Cola",
-    "direccion": "Calle 123",
-}
-```
+**Request**: igual al del `POST`.
 
 ### DELETE /api/proveedores/:id
 
 Objetivo: Dar de baja lógica un proveedor de la tienda (no se borra físicamente, se marca `activo: false`).
 
+**Respuesta**: igual al `GET /api/proveedores/:id`, con `"activo": false`.
+
 ## VENTAS
+
+_Registro de auditoría: sin `PUT` (no se edita). Tiene `DELETE`, que revierte el efecto en el stock antes de borrar._
 
 ### GET /api/ventas
 
-Objetivo: Obtener todas las ventas de la tienda, 
-opcionalmente filtradas.
+Objetivo: Obtener todas las ventas de la tienda, opcionalmente filtradas.
 
 **Query params** (todos opcionales, se pueden combinar):
 - `producto_id` (int): filtra por producto.
-- `proveedor_id` (int): filtra por proveedor.
+- `empleado_id` (int): filtra por empleado que registró la venta.
 
 **Ejemplos**:
 - `GET /api/ventas` → todas las ventas.
 - `GET /api/ventas?producto_id=1` → solo ventas de ese producto.
-- `GET /api/ventas?proveedor_id=1` → solo ventas de ese proveedor.
+- `GET /api/ventas?empleado_id=1` → solo ventas registradas por ese empleado.
 
 **Respuesta**:
-
 ```json
 [
-    {
-        "id": 1,
-        "producto_id": 1,
-        "empleado_id": 1,
-        "cantidad": 1,
-        "precio_unitario": 1200.50,
-        "descuento": 0,
-        "fecha": "2022-01-01",
-    }...
+  {
+    "id": 1,
+    "producto_id": 1,
+    "empleado_id": 1,
+    "cantidad": 1,
+    "precio_unitario": 1200,
+    "descuento": 0,
+    "fecha": "2026-08-02T14:30:00Z"
+  }
 ]
 ```
 
@@ -241,41 +224,57 @@ opcionalmente filtradas.
 Objetivo: Obtener una venta de la tienda.
 
 **Respuesta**:
-
 ```json
 {
-    "id": 1,
-    "producto_id": 1,
-    "empleado_id": 1,
-    "cantidad": 1,
-    "precio_unitario": 1200.50,
-    "descuento": 0,
-    "fecha": "2022-01-01",
+  "id": 1,
+  "producto_id": 1,
+  "empleado_id": 1,
+  "cantidad": 1,
+  "precio_unitario": 1200,
+  "descuento": 0,
+  "fecha": "2026-08-02T14:30:00Z"
 }
 ```
 
 ### POST /api/ventas
 
-Objetivo: Crear una venta en la tienda.
+Objetivo: Crear una venta en la tienda. Valida que `cantidad` no supere el `stock` actual del producto; si no alcanza, devuelve `400` con el formato de error estándar.
 
 **Request**:
-
 ```json
 {
-    "producto_id": 1,
-    "empleado_id": 1,
-    "cantidad": 1,
-    "precio_unitario": 1200.50,
-    "descuento": 0,
+  "producto_id": 1,
+  "empleado_id": 1,
+  "cantidad": 1,
+  "precio_unitario": 1200,
+  "descuento": 0
+}
+```
+
+### DELETE /api/ventas/:id
+
+Objetivo: Eliminar una venta. Antes de borrar la fila, le devuelve la `cantidad` al `stock` del producto (`stock = stock + cantidad`).
+
+**Respuesta**:
+```json
+{
+  "id": 1,
+  "producto_id": 1,
+  "empleado_id": 1,
+  "cantidad": 1,
+  "precio_unitario": 1200,
+  "descuento": 0,
+  "fecha": "2026-08-02T14:30:00Z"
 }
 ```
 
 ## COMPRAS
 
+_Registro de auditoría: sin `PUT` (no se edita). Tiene `DELETE`, que revierte el efecto en el stock antes de borrar._
+
 ### GET /api/compras
 
-Objetivo: Obtener todas las compras de la tienda, 
-opcionalmente filtradas.
+Objetivo: Obtener todas las compras de la tienda, opcionalmente filtradas.
 
 **Query params** (todos opcionales, se pueden combinar):
 - `producto_id` (int): filtra por producto.
@@ -285,22 +284,21 @@ opcionalmente filtradas.
 **Ejemplos**:
 - `GET /api/compras` → todas las compras.
 - `GET /api/compras?producto_id=1` → solo compras de ese producto.
-- `GET /api/compras?proveedor_id=1` → solo compras de ese proveedor.
-- `GET /api/compras?empleado_id=1` → solo compras de ese empleado.
+- `GET /api/compras?proveedor_id=1` → solo compras a ese proveedor.
+- `GET /api/compras?empleado_id=1` → solo compras registradas por ese empleado.
 
 **Respuesta**:
-
 ```json
 [
-    {
-        "id": 1,
-        "producto_id": 1,
-        "proveedor_id": 1,
-        "empleado_id": 1,
-        "cantidad": 1,
-        "precio_unitario": 1200.50,
-        "fecha": "2022-01-01",
-    }...
+  {
+    "id": 1,
+    "producto_id": 1,
+    "proveedor_id": 1,
+    "empleado_id": 1,
+    "cantidad": 1,
+    "precio_unitario": 1200,
+    "fecha": "2026-08-02T14:30:00Z"
+  }
 ]
 ```
 
@@ -309,16 +307,15 @@ opcionalmente filtradas.
 Objetivo: Obtener una compra de la tienda.
 
 **Respuesta**:
-
 ```json
 {
-    "id": 1,
-    "producto_id": 1,
-    "proveedor_id": 1,
-    "empleado_id": 1,
-    "cantidad": 1,
-    "precio_unitario": 1200.50,
-    "fecha": "2022-01-01",
+  "id": 1,
+  "producto_id": 1,
+  "proveedor_id": 1,
+  "empleado_id": 1,
+  "cantidad": 1,
+  "precio_unitario": 1200,
+  "fecha": "2026-08-02T14:30:00Z"
 }
 ```
 
@@ -327,14 +324,30 @@ Objetivo: Obtener una compra de la tienda.
 Objetivo: Crear una compra en la tienda.
 
 **Request**:
-
 ```json
 {
-    "producto_id": 1,
-    "proveedor_id": 1,
-    "empleado_id": 1,
-    "cantidad": 1,
-    "precio_unitario": 1200.50,
+  "producto_id": 1,
+  "proveedor_id": 1,
+  "empleado_id": 1,
+  "cantidad": 1,
+  "precio_unitario": 1200
+}
+```
+
+### DELETE /api/compras/:id
+
+Objetivo: Eliminar una compra. Antes de borrar la fila, le resta la `cantidad` al `stock` del producto (`stock = stock - cantidad`), ya que la compra lo había sumado.
+
+**Respuesta**:
+```json
+{
+  "id": 1,
+  "producto_id": 1,
+  "proveedor_id": 1,
+  "empleado_id": 1,
+  "cantidad": 1,
+  "precio_unitario": 1200,
+  "fecha": "2026-08-02T14:30:00Z"
 }
 ```
 
@@ -345,26 +358,26 @@ Objetivo: Crear una compra en la tienda.
 Objetivo: Obtener todos los empleados de la tienda, opcionalmente filtrados.
 
 **Query params** (todos opcionales, se pueden combinar):
-- `nombre` (string): filtra por nombre exacta.
+- `nombre` (string): búsqueda parcial por nombre (`LIKE %nombre%`).
 
 **Ejemplos**:
-- `GET /api/empleados` → todos los empleados.
-- `GET /api/empleados?nombre=Julian` → solo empleados de esa marca.
+- `GET /api/empleados` → todos los empleados activos.
+- `GET /api/empleados?nombre=julian` → empleados cuyo nombre contenga "julian".
 
 **Respuesta**:
-
 ```json
 [
-    {
-        "id": 1,
-        "nombre": "Julian",
-        "fecha_nacimiento": "1990-01-01",
-        "dni": "123456789",
-        "cargo": "Empleado",
-        "contacto": "123456789",
-        "correo": "julian@miapp.com",
-        "sueldo": 1200.50,
-    }
+  {
+    "id": 1,
+    "nombre_completo": "Julian Perez",
+    "fecha_nacimiento": "1990-01-01",
+    "dni": "123456789",
+    "cargo": "Empleado",
+    "contacto": "123456789",
+    "correo": "julian@miapp.com",
+    "sueldo": 350000,
+    "activo": true
+  }
 ]
 ```
 
@@ -372,36 +385,22 @@ Objetivo: Obtener todos los empleados de la tienda, opcionalmente filtrados.
 
 Objetivo: Obtener un empleado de la tienda.
 
-**Respuesta**:
-
-```json
-{
-    "id": 1,
-    "nombre": "Julian",
-    "fecha_nacimiento": "1990-01-01",
-    "dni": "123456789",
-    "cargo": "Empleado",
-    "contacto": "123456789",
-    "correo": "julian@miapp.com",
-    "sueldo": 1200.50,
-}
-```
+**Respuesta**: igual estructura que el item del `GET /api/empleados`.
 
 ### POST /api/empleados
 
 Objetivo: Crear un empleado en la tienda.
 
 **Request**:
-
 ```json
 {
-    "nombre": "Julian",
-    "fecha_nacimiento": "1990-01-01",
-    "dni": "123456789",
-    "cargo": "Empleado",
-    "contacto": "123456789",
-    "correo": "julian@miapp.com",
-    "sueldo": 1200.50,
+  "nombre_completo": "Julian Perez",
+  "fecha_nacimiento": "1990-01-01",
+  "dni": "123456789",
+  "cargo": "Empleado",
+  "contacto": "123456789",
+  "correo": "julian@miapp.com",
+  "sueldo": 350000
 }
 ```
 
@@ -409,38 +408,26 @@ Objetivo: Crear un empleado en la tienda.
 
 Objetivo: Modificar un empleado en la tienda.
 
-**Request**:
-
-```json
-{
-    "nombre": "Julian",
-    "fecha_nacimiento": "1990-01-01",
-    "dni": "123456789",
-    "cargo": "Empleado",
-    "contacto": "123456789",
-    "correo": "julian@miapp.com",
-    "sueldo": 1200.50,
-}
-```
+**Request**: igual al del `POST`.
 
 ### DELETE /api/empleados/:id
 
 Objetivo: Dar de baja lógica un empleado de la tienda (no se borra físicamente, se marca `activo: false`).
 
+**Respuesta**: igual al `GET /api/empleados/:id`, con `"activo": false`.
+
 ## CATEGORIAS
+
+_Tabla de referencia simple: sin `DELETE`._
 
 ### GET /api/categorias
 
-Objetivo: Obtener todas las categorías de la tienda, opcionalmente filtradas.
+Objetivo: Obtener todas las categorías de la tienda.
 
-**RESPUESTA**:
-
+**Respuesta**:
 ```json
 [
-    {
-        "id": 1,
-        "nombre": "Coca Cola",
-    }
+  { "id": 1, "nombre": "Bebidas" }
 ]
 ```
 
@@ -448,13 +435,9 @@ Objetivo: Obtener todas las categorías de la tienda, opcionalmente filtradas.
 
 Objetivo: Obtener una categoría de la tienda.
 
-**RESPUESTA**:
-
+**Respuesta**:
 ```json
-{
-    "id": 1,
-    "nombre": "Coca Cola",
-}
+{ "id": 1, "nombre": "Bebidas" }
 ```
 
 ### POST /api/categorias
@@ -462,11 +445,8 @@ Objetivo: Obtener una categoría de la tienda.
 Objetivo: Crear una categoría en la tienda.
 
 **Request**:
-
 ```json
-{
-    "nombre": "Coca Cola",
-}
+{ "nombre": "Bebidas" }
 ```
 
 ### PUT /api/categorias/:id
@@ -474,14 +454,13 @@ Objetivo: Crear una categoría en la tienda.
 Objetivo: Modificar una categoría en la tienda.
 
 **Request**:
-
 ```json
-{
-    "nombre": "Coca Cola",
-}
+{ "nombre": "Bebidas" }
 ```
 
 ## AJUSTES
+
+_Registro de auditoría: sin `PUT` (no se edita). Tiene `DELETE`, que revierte el efecto en el stock antes de borrar._
 
 ### GET /api/ajustes
 
@@ -494,20 +473,66 @@ Objetivo: Obtener todos los ajustes de la tienda, opcionalmente filtrados.
 **Ejemplos**:
 - `GET /api/ajustes` → todos los ajustes.
 - `GET /api/ajustes?producto_id=1` → solo ajustes de ese producto.
-- `GET /api/ajustes?empleado_id=1` → solo ajustes de ese empleado.
+- `GET /api/ajustes?empleado_id=1` → solo ajustes hechos por ese empleado.
 
 **Respuesta**:
-
 ```json
 [
-    {
-        "id": 1,
-        "producto_id": 1,
-        "empleado_id": 1,
-        "cantidad": 1,
-        "motivo": "No se puede vender",
-        "fecha": "2022-01-01",
-    }...
+  {
+    "id": 1,
+    "producto_id": 1,
+    "empleado_id": 1,
+    "cantidad": -1,
+    "motivo": "Producto dañado, se descarta del stock",
+    "fecha": "2026-08-02T14:30:00Z"
+  }
 ]
 ```
+
+### GET /api/ajustes/:id
+
+Objetivo: Obtener un ajuste de la tienda.
+
+**Respuesta**:
+```json
+{
+  "id": 1,
+  "producto_id": 1,
+  "empleado_id": 1,
+  "cantidad": -1,
+  "motivo": "Producto dañado, se descarta del stock",
+  "fecha": "2026-08-02T14:30:00Z"
+}
+```
+
+### POST /api/ajustes
+
+Objetivo: Crear un ajuste en la tienda. Si `cantidad` es negativa, valida que no supere el `stock` actual del producto; si no alcanza, devuelve `400` con el formato de error estándar. `motivo` es obligatorio.
+
+**Request**:
+```json
+{
+  "producto_id": 1,
+  "empleado_id": 1,
+  "cantidad": -1,
+  "motivo": "Producto dañado, se descarta del stock"
+}
+```
+
+### DELETE /api/ajustes/:id
+
+Objetivo: Eliminar un ajuste. Antes de borrar la fila, revierte su efecto sobre el `stock` del producto (`stock = stock - cantidad`, deshaciendo la corrección que había aplicado).
+
+**Respuesta**:
+```json
+{
+  "id": 1,
+  "producto_id": 1,
+  "empleado_id": 1,
+  "cantidad": -1,
+  "motivo": "Producto dañado, se descarta del stock",
+  "fecha": "2026-08-02T14:30:00Z"
+}
+```
+
 
