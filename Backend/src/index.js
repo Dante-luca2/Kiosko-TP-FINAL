@@ -1,3 +1,5 @@
+//HEALTHCHECK 
+
 require('dotenv').config();
 
 const express = require ('express');
@@ -10,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/health', async (req, res) => {
     try{
         await pool.query('SELECT 1');
         res.json({status: 'ok', db: 'connected' });
