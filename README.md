@@ -48,9 +48,13 @@ Kiosko-TP-FINAL/
 
 ## Páginas del frontend (CSR contra el backend)
 
-- **Productos**: listado con stock actual, alertas de reposición, alta/edición/baja.
-- **Movimientos / Historial**: registrar ventas, compras, regalos y ajustes; ver el historial completo.
-- **Proveedores**: alta/edición/baja de proveedores.
+- **Productos**: listado con stock actual y alertas de reposición, filtro por categoría, alta/edición/baja lógica.
+- **Categorías**: alta/edición/baja de categorías, para organizar el catálogo de productos.
+- **Proveedores**: listado, alta/edición/baja lógica.
+- **Empleados**: listado, alta/edición/baja lógica, con el dato de quién es el dueño.
+- **Registrar movimiento**: pantalla(s) para cargar una Venta, una Compra o un Ajuste, seleccionando quién lo está registrando.
+- **Historial de movimientos**: consulta combinada de Venta + Compra + Ajuste, filtrable por producto o por período.
+- **Reportes**: productos más vendidos, ganancia/margen estimado, historial de caja por período, listado de productos a reponer.
 
 ## Tecnologías
 
