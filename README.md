@@ -95,6 +95,11 @@ npm install
 npm run dev
 ```
 
+## FRONTEND
+
+## BACKEND
+
+
 En este caso se necesita una instancia de PostgreSQL corriendo localmente, con las credenciales configuradas en `Backend/.env` (usando `DB_HOST=localhost`).
 
 ## Capturas de pantalla
