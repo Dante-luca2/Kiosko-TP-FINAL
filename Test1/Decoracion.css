@@ -18,9 +18,10 @@ body {
   align-items: center;
   box-shadow: 0 10px 20px rgb(0, 32, 129);
   text-decoration: underline;
-  text-decoration-color: #ffffff;
+  text-decoration-color: #848484;
   text-decoration-thickness: 3px;
   text-decoration-style:solid;
+  border: 5px solid #002309;
 }
 
 
@@ -34,8 +35,8 @@ body {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #0300cf;
-  color: #00022e;
+  background-color: #7b79ff;
+  color: #000dff;
   border: none;
   border-radius: 16px;
   font-size: 15px;
@@ -44,6 +45,7 @@ body {
   box-shadow: 0 6px 15px rgba(0, 32, 129, 0.25);
   transition: all 0.2s ease-in-out;
   margin: 40px;
+  border: 5px solid #0004ff;
 }
 
 .icono-boton {
@@ -54,13 +56,13 @@ body {
 
 .boton-azul:hover {
   transform: translateY(-2px);
-  background-color: #707aff;
+  background-color: #a6acff;
   box-shadow: 0 4px 10px rgb(17, 0, 255);
 }
 
 .boton-azul:active {
   transform: translateY(-4px);
-  background-color: #c4c8ff;
+  background-color: #ffffff;
   box-shadow: 0 2px 5px rgb(0, 16, 66);
 }
 
