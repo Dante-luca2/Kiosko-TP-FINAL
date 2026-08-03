@@ -1,8 +1,6 @@
 import { getProductos, getProducto, postProducto, putProducto, deleteProducto } from './servicios/productos.js'
 
-// PRUEBA DE LOS SERVICIOS DE LA API
-
-// SERVICIOS PRODUCTOS
+// PRUEBA DE LOS SERVICIOS DE LA API PRODUCTOS
 
 // Obtener todos los productos
 try {
