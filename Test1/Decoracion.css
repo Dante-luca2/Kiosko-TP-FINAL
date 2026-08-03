@@ -72,3 +72,30 @@ body {
   gap: 0px; 
   margin-top: 30px;
 }
+
+
+.seccion-principal {
+  display: flex;
+  gap: 40px; /* Separación entre el menú de botones y la zona de la derecha */
+  padding: 30px; /* Margen interno general */
+  align-items: flex-start; /* Alinea todo arriba */
+}
+
+.contenedor-botones {
+  display: grid;
+  /* Fuerza a que solo haya 2 columnas de 140px cada una (o el ancho de tus botones) */
+  grid-template-columns: repeat(2, 140px); 
+  gap: 15px; /* Separación entre botones */
+  
+  /* Desactiva el flexbox directo para esta sub-caja */
+  flex-shrink: 0; /* Evita que la columna de botones se aplaste si el texto de la derecha es muy ancho */
+}
+
+/* Columna Derecha: El texto/contenido libre */
+.contenido-derecha {
+  flex: 1; /* Ocupa TODO el espacio libre restante a la derecha */
+  background-color: #ffffff; /* Opcional: fondo blanco tipo tarjeta */
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
