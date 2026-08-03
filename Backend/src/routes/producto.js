@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
     const productos = await productoQueries.getAll({ marca, tipo, categoria_id });
     res.json(productos);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error al obtener los productos' });
   }
 });
@@ -20,6 +21,7 @@ router.get('/:id', async (req, res) => {
     if (!producto) return res.status(404).json({ error: 'Producto no encontrado' });
     res.json(producto);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error al obtener el producto' });
   }
 });
@@ -41,6 +43,7 @@ router.post('/', async (req, res) => {
     const nuevoProducto = await productoQueries.create(req.body);
     res.status(201).json(nuevoProducto);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error al crear el producto' });
   }
 });
@@ -63,6 +66,7 @@ router.put('/:id', async (req, res) => {
     if (!productoActualizado) return res.status(404).json({ error: 'Producto no encontrado' });
     res.json(productoActualizado);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error al actualizar el producto' });
   }
 });
@@ -73,6 +77,7 @@ router.delete('/:id', async (req, res) => {
     if (!productoEliminado) return res.status(404).json({ error: 'Producto no encontrado' });
     res.json(productoEliminado);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error al eliminar el producto' });
   }
 });
