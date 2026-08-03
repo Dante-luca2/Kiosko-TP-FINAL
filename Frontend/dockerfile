@@ -1,7 +1,17 @@
+# Etapa 1: build de la app con Vite
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+# Etapa 2: servir los archivos ya compilados con nginx
 FROM nginx:alpine
 
-COPY . /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
-
-#nginx =  cumple la consigna de Docker Compose, y sirve los archivos por http://localhost:8080 como corresponde para que el fetch() al backend funcione bien.

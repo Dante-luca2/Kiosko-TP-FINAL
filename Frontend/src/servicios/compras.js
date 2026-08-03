@@ -19,3 +19,9 @@ export async function postCompra(datos){
     const respuesta = await api.post('/compras', datos);
     return respuesta.data;
 }
+
+// DELETE /compras/{compraId}
+export async function deleteCompra(compraId){
+    const respuesta = await api.delete(`/compras/${compraId}`);
+    return respuesta.data;
+}
