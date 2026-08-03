@@ -26,10 +26,10 @@ body {
 
 
 .boton-azul {
-  margin-top: 100px;
-  margin: 50px auto;
+  margin-top: 50px;
+  margin: 10px;
   width: 140px;
-  height: 120px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,7 +44,6 @@ body {
   cursor: pointer;
   box-shadow: 0 6px 15px rgba(0, 32, 129, 0.25);
   transition: all 0.2s ease-in-out;
-  margin: 40px;
   border: 5px solid #0004ff;
 }
 
@@ -68,7 +67,7 @@ body {
 
 .contenedor-botones {
   display: flex;
-  justify-content: center;
+
   align-items: center;
   gap: 0px; 
   margin-top: 30px;
