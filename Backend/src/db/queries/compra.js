@@ -1,6 +1,6 @@
 const pool = require('../pool');
 
-async function getAll({ producto_id, empleado_id } = {}) {
+async function getAll({ producto_id, proveedor_id, empleado_id } = {}) {
   const condiciones = [];
   const valores = [];
 
@@ -8,69 +8,48 @@ async function getAll({ producto_id, empleado_id } = {}) {
     valores.push(producto_id);
     condiciones.push(`producto_id = $${valores.length}`);
   }
+  if (proveedor_id) {
+    valores.push(proveedor_id);
+    condiciones.push(`proveedor_id = $${valores.length}`);
+  }
   if (empleado_id) {
     valores.push(empleado_id);
     condiciones.push(`empleado_id = $${valores.length}`);
   }
 
   const where = condiciones.length ? `WHERE ${condiciones.join(' AND ')}` : '';
-  const query = `SELECT * FROM venta ${where} ORDER BY fecha DESC`;
+  const query = `SELECT * FROM compra ${where} ORDER BY fecha DESC`;
   const { rows } = await pool.query(query, valores);
   return rows;
 }
 
 async function getById(id) {
-  const { rows } = await pool.query('SELECT * FROM venta WHERE id = $1', [id]);
+  const { rows } = await pool.query('SELECT * FROM compra WHERE id = $1', [id]);
   return rows[0];
 }
 
-async function create({ producto_id, empleado_id, cantidad, precio_unitario, descuento = 0 }) {
-  const client = await pool.connect();
-  try {
-    await client.query('BEGIN');
+async function create({ producto_id, proveedor_id, empleado_id, cantidad, precio_unitario }) {
+  const { rows } = await pool.query(
+    `INSERT INTO compra (producto_id, proveedor_id, empleado_id, cantidad, precio_unitario)
+     VALUES ($1, $2, $3, $4, $5)
+     RETURNING *`,
+    [producto_id, proveedor_id, empleado_id, cantidad, precio_unitario]
+  );
 
-    const { rows } = await client.query(
-      `INSERT INTO venta (producto_id, empleado_id, cantidad, precio_unitario, descuento)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *`,
-      [producto_id, empleado_id, cantidad, precio_unitario, descuento]
-    );
+  await pool.query('UPDATE producto SET stock = stock + $1 WHERE id = $2', [cantidad, producto_id]);
 
-    await client.query('UPDATE producto SET stock = stock - $1 WHERE id = $2', [cantidad, producto_id]);
-
-    await client.query('COMMIT');
-    return rows[0];
-  } catch (error) {
-    await client.query('ROLLBACK');
-    throw error;
-  } finally {
-    client.release();
-  }
+  return rows[0];
 }
 
 async function remove(id) {
-  const client = await pool.connect();
-  try {
-    await client.query('BEGIN');
+  const { rows: compraRows } = await pool.query('SELECT * FROM compra WHERE id = $1', [id]);
+  const compra = compraRows[0];
+  if (!compra) return null;
 
-    const { rows: ventaRows } = await client.query('SELECT * FROM venta WHERE id = $1', [id]);
-    const venta = ventaRows[0];
-    if (!venta) {
-      await client.query('ROLLBACK');
-      return null;
-    }
+  await pool.query('UPDATE producto SET stock = stock - $1 WHERE id = $2', [compra.cantidad, compra.producto_id]);
+  await pool.query('DELETE FROM compra WHERE id = $1', [id]);
 
-    await client.query('UPDATE producto SET stock = stock + $1 WHERE id = $2', [venta.cantidad, venta.producto_id]);
-    await client.query('DELETE FROM venta WHERE id = $1', [id]);
-
-    await client.query('COMMIT');
-    return venta;
-  } catch (error) {
-    await client.query('ROLLBACK');
-    throw error;
-  } finally {
-    client.release();
-  }
+  return compra;
 }
 
 module.exports = { getAll, getById, create, remove };
