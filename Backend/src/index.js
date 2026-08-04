@@ -14,10 +14,10 @@ app.use(express.json());
 
 app.get('/health', async (req, res) => {
     try{
-        await pool.query('SELECT 1');
-        res.json({status: 'ok', db: 'connected' });
+      await pool.query('SELECT 1');
+      res.json({status: 'ok', db: 'connected' });
   } catch (error) {
-    res.status(500).json({ status: 'error', db: 'disconnected', detail: error.message });
+      res.status(500).json({ status: 'error', db: 'disconnected', detail: error.message });
   }
 });
 
