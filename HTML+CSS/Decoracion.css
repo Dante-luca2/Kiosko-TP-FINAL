@@ -1,8 +1,7 @@
 body {
-    background-color: hwb(0 89% 11%);
+    background-color: hwb(0 84% 16%);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, Times, serif;
 }
-
 .banner-superior {
   box-sizing: border-box;
   margin: 0;
@@ -16,15 +15,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 10px 20px rgb(0, 32, 129);
-  text-decoration: underline;
-  text-decoration-color: #848484;
-  text-decoration-thickness: 3px;
-  text-decoration-style:solid;
+  box-shadow: 0 10px 20px rgb(0, 129, 19);
   border: 5px solid #002309;
 }
-
-
 .boton-azul {
   margin-top: 50px;
   margin: 10px;
@@ -34,68 +27,48 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background-color: #7b79ff;
   color: #000dff;
-  border: none;
   border-radius: 16px;
-  font-size: 15px;
+  font-size: 25px;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 6px 15px rgba(0, 32, 129, 0.25);
   transition: all 0.2s ease-in-out;
   border: 5px solid #0004ff;
+  text-decoration: none;
 }
-
 .icono-boton {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
 }
-
 .boton-azul:hover {
   transform: translateY(-2px);
   background-color: #a6acff;
   box-shadow: 0 4px 10px rgb(17, 0, 255);
 }
-
 .boton-azul:active {
   transform: translateY(-4px);
   background-color: #ffffff;
   box-shadow: 0 2px 5px rgb(0, 16, 66);
 }
-
-.contenedor-botones {
-  display: flex;
-
-  align-items: center;
-  gap: 0px; 
-  margin-top: 30px;
-}
-
-
 .seccion-principal {
-  display: flex;
-  gap: 40px; /* Separación entre el menú de botones y la zona de la derecha */
-  padding: 30px; /* Margen interno general */
-  align-items: flex-start; /* Alinea todo arriba */
+  display:flex;
+  gap: 40px;
+  padding: 30px;
 }
-
 .contenedor-botones {
   display: grid;
-  /* Fuerza a que solo haya 2 columnas de 140px cada una (o el ancho de tus botones) */
-  grid-template-columns: repeat(2, 140px); 
-  gap: 15px; /* Separación entre botones */
-  
-  /* Desactiva el flexbox directo para esta sub-caja */
-  flex-shrink: 0; /* Evita que la columna de botones se aplaste si el texto de la derecha es muy ancho */
+  grid-template-columns: repeat(2, auto);
+  gap: 15px;
+  flex-shrink: 0;
 }
-
-/* Columna Derecha: El texto/contenido libre */
 .contenido-derecha {
-  flex: 1; /* Ocupa TODO el espacio libre restante a la derecha */
-  background-color: #ffffff; /* Opcional: fondo blanco tipo tarjeta */
+  flex: 1;
+  background-color: #d4d0ff;
   padding: 25px;
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 5px solid #7476ff;
 }
