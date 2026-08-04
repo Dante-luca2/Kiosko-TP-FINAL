@@ -31,6 +31,11 @@ async function create(data) {
 
 async function update(id, data) {
     const { nombre, contacto, telefono, rubro, direccion } = data;
+    const { rows } = await pool.query(
+        'UPDATE proveedor SET nombre = $1, contacto = $2, telefono = $3, rubro = $4, direccion = $5 WHERE id = $6 RETURNING *',
+        [nombre, contacto, telefono, rubro, direccion, id]
+    );
+    return rows[0];
 }
 
 async function softDelete(id) {
