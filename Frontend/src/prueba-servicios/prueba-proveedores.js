@@ -1,4 +1,4 @@
-import { getProveedores, getProveedor, postProveedor, putProveedor, deleteProveedor } from './servicios/proveedores.js'
+import { getProveedores, getProveedor, postProveedor, putProveedor, deleteProveedor } from '../servicios/proveedores.js'
 
 // PRUEBA DE LOS SERVICIOS DE LA API PROVEEDORES
 

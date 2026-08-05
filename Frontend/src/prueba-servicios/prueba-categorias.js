@@ -1,4 +1,4 @@
-import { getCategorias, getCategoria, postCategoria, putCategoria } from './servicios/categorias.js'
+import { getCategorias, getCategoria, postCategoria, putCategoria } from '../servicios/categorias.js'
 
 // PRUEBA DE LOS SERVICIOS DE LA API CATEGORIAS
 

@@ -1,4 +1,4 @@
-import { getAjustes, getAjuste, postAjuste, deleteAjuste } from './servicios/ajustes.js'
+import { getAjustes, getAjuste, postAjuste, deleteAjuste } from '../servicios/ajustes.js'
 
 // PRUEBA DE LOS SERVICIOS DE LA API AJUSTES
 

@@ -1,4 +1,4 @@
-import { getVentas, getVenta, postVenta, deleteVenta } from './servicios/ventas.js'
+import { getVentas, getVenta, postVenta, deleteVenta } from '../servicios/ventas.js'
 
 // PRUEBA DE LOS SERVICIOS DE LA API VENTAS
 

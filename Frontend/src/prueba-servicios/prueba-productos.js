@@ -1,4 +1,4 @@
-import { getProductos, getProducto, postProducto, putProducto, deleteProducto } from './servicios/productos.js'
+import { getProductos, getProducto, postProducto, putProducto, deleteProducto } from '../servicios/productos.js'
 
 // PRUEBA DE LOS SERVICIOS DE LA API PRODUCTOS
 

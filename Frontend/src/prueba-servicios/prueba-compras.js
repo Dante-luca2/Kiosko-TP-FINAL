@@ -1,4 +1,4 @@
-import { getCompras, getCompra, postCompra, deleteCompra } from './servicios/compras.js'
+import { getCompras, getCompra, postCompra, deleteCompra } from '../servicios/compras.js'
 
 // PRUEBA DE LOS SERVICIOS DE LA API COMPRAS
 

@@ -1,4 +1,4 @@
-import { getEmpleados, getEmpleado, postEmpleado, putEmpleado, deleteEmpleado } from './servicios/empleados.js'
+import { getEmpleados, getEmpleado, postEmpleado, putEmpleado, deleteEmpleado } from '../servicios/empleados.js'
 
 // PRUEBA DE LOS SERVICIOS DE LA API EMPLEADOS
 
