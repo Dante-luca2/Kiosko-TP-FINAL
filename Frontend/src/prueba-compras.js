@@ -23,27 +23,28 @@ try {
 }
 
 // Crear una compra
+let compraCreada;
 try {
-    const compraCreada = await postCompra({
-        producto_id: 1,
-        proveedor_id: 1,
-        empleado_id: 1,
-        cantidad: 1,
-        precio_unitario: 1200
-    });
-    console.log(compraCreada);
+  compraCreada = await postCompra({
+    producto_id: 1,
+    proveedor_id: 1,
+    empleado_id: 1,
+    cantidad: 1,
+    precio_unitario: 1200
+  });
+  console.log(compraCreada);
 } catch (error) {
-    console.error('Algo fallo al crear una compra');
-    console.error('Status:', error.response?.status);
-    console.error('Mensaje:', error.response?.data);
+  console.error('Algo fallo al crear una compra');
+  console.error('Status:', error.response?.status);
+  console.error('Mensaje:', error.response?.data);
 }
 
-// Eliminar una compra
+// Eliminar la compra recien creada
 try {
-    const compraEliminada = await deleteCompra(1);
-    console.log(compraEliminada);
+  const compraEliminada = await deleteCompra(compraCreada.id);
+  console.log(compraEliminada);
 } catch (error) {
-    console.error('Algo fallo al eliminar la compra');
-    console.error('Status:', error.response?.status);
-    console.error('Mensaje:', error.response?.data);
+  console.error('Algo fallo al eliminar la compra');
+  console.error('Status:', error.response?.status);
+  console.error('Mensaje:', error.response?.data);
 }
