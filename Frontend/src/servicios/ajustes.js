@@ -19,3 +19,9 @@ export async function postAjuste(datos){
     const respuesta = await api.post('/ajustes', datos);
     return respuesta.data;
 }
+
+// DELETE /ajustes/{ajusteId}
+export async function deleteAjuste(ajusteId){
+    const respuesta = await api.delete(`/ajustes/${ajusteId}`);
+    return respuesta.data;
+}
