@@ -1,0 +1,35 @@
+body {
+    font-family: '	Brush Script MT ',cursive  ;
+    background-color: #e4dfdf;
+    padding: 20px;
+}
+form {
+    background: #1eb777;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 0 10px rgba(235, 230, 230, 0.1);
+}
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+input, textarea, button {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #dbd9d9;
+    border-radius: 4px;
+}
+button {
+    background-color: #d20808;
+    color: rgb(242, 241, 241);
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #9a99a3;
+}
+
