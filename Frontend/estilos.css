@@ -1,0 +1,99 @@
+body {
+    font-family: -apple-system, 'Segoe UI', Roboto, system-ui, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+#contenido {
+    flex: 1;
+    padding: 2rem;
+    background-color: #f9f9f9;
+}
+
+.cabecera {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.titulos h1 {
+    margin: 0 0 4px;
+    font-size: 1.5rem;
+}
+
+.titulos h2 {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: #666;
+}
+
+.boton-primario {
+    background-color: #222;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.boton-primario:hover {
+    background-color: #000;
+}
+
+.contenedor-tabla {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.tabla-datos {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.tabla-datos thead {
+    background-color: #f4f4f4;
+}
+
+.tabla-datos th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    color: #555;
+    font-weight: 600;
+}
+
+.tabla-datos td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #eee;
+}
+
+.celda-acciones {
+    text-align: right;
+}
+
+.boton-accion {
+    background: none;
+    border: none;
+    color: #555;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.boton-accion:hover {
+    text-decoration: underline;
+}
+
+.boton-accion.eliminar {
+    color: #c0392b;
+}

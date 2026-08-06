@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosco</title>
+    <link rel="stylesheet" href="../../../estilos.css">
+    <link rel="stylesheet" href="../../componentes/slidebar.css">
+</head>
+<body>
+    <div class="layout">
+        <div id="slidebar"></div>
+        <div id="contenido">
+            <div class="cabecera">
+                <div class="titulos">
+                    <h1>Empleados</h1>
+                    <h2>Personal que opera el sistema</h2>
+                </div>
+                <button class="boton-primario">Nuevo empleado</button>
+            </div>
+            <div class="contenedor-tabla">
+                <table class="tabla-datos">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cargo</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Contacto</th>
+                            <th scope="col">Sueldo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-empleados">
+                        <tr>
+                            <td colspan="6">Cargando empleados...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./empleados.js"></script>
+</body>
+</html>
