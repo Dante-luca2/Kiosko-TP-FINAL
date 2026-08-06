@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista</title>
+    <link rel="stylesheet" href="Decoracion.css">
+</head>
+<body>
+<div class="banner-superior">
+    <h1>- Lista -</h1>
+</div>
+
+
+<div class="contenedor-botones">
+    <a href="MenuPaginaWeb.html" class="boton-azul">
+        <img src="Iconos/Retroceder.png" alt="Eliminar" class="icono-boton">
+        <span>Menu Principal</span>
+    </a>
+</div>
+
+  <div class="seccion-principal">
+    <div class="contenido-derecha">
+      <h2>Productos en Stock</h2>
+
+      <table class="tabla-productos">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Tipo</th>
+            <th>Stock Mínimo</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-cuerpo">
+          <!-- Los productos insertados por SQL se cargarán acá -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    async function obtenerProductos() {
+      try {
+        const respuesta = await fetch('http://localhost:3000/api/productos');
+        const productos = await respuesta.json();
+
+        const cuerpoTabla = document.getElementById('tabla-cuerpo');
+        cuerpoTabla.innerHTML = '';
+
+        productos.forEach(producto => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${producto.id}</td>
+            <td><strong>${producto.nombre}</strong></td>
+            <td>$${producto.precio}</td>
+            <td>${producto.cantidad_actual} hs</td>
+            <td><span class="etiqueta ${producto.tipo}">${producto.tipo}</span></td>
+            <td>${producto.stock_minimo}</td>
+          `;
+          cuerpoTabla.appendChild(fila);
+        });
+      } catch (error) {
+        console.error('Error al cargar productos:', error);
+      }
+    }
+
+    // Cargar los productos ni bien abre la página
+    obtenerProductos();
+  </script>
+</body>
+</html>

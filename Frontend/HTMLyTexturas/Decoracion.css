@@ -72,3 +72,45 @@ body {
   border-radius: 16px;
   border: 5px solid #7476ff;
 }
+
+
+
+/* Estilos para la tabla dentro de contenido-derecha */
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tabla-productos th, 
+.tabla-productos td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tabla-productos th {
+  background-color: #00740c;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.tabla-productos tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Etiquetas dinámicas según el tipo de producto */
+.etiqueta {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.etiqueta.normal { background-color: #e0e7ff; color: #3730a3; }
+.etiqueta.estacional { background-color: #fef3c7; color: #92400e; }
+.etiqueta.limitado { background-color: #fee2e2; color: #991b1b; }
