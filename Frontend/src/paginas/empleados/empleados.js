@@ -18,16 +18,16 @@ async function cargarEmpleados() {
 
 function render() {
     const tbody = document.querySelector('#tabla-empleados');
-    tbody.innerHTML = empleados.map(e => `
+    tbody.innerHTML = empleados.map(elemento => `
         <tr>
-            <td>${e.nombre_completo}${e.es_dueño ? ' <strong>(Dueño)</strong>' : ''}</td>
-            <td>${e.cargo}</td>
-            <td>${e.dni}</td>
-            <td>${e.contacto}</td>
-            <td>$${e.sueldo}</td>
+            <td>${elemento.nombre_completo}${elemento.es_dueño ? ' <strong>(Dueño)</strong>' : ''}</td>
+            <td>${elemento.cargo}</td>
+            <td>${elemento.dni}</td>
+            <td>${elemento.contacto}</td>
+            <td>$${elemento.sueldo}</td>
             <td class="celda-acciones">
-                <button class="boton-accion" data-id="${e.id}" data-accion="editar">Editar</button>
-                <button class="boton-accion eliminar" data-id="${e.id}" data-accion="eliminar">Eliminar</button>
+                <button class="boton-accion" data-id="${elemento.id}" data-accion="editar">Editar</button>
+                <button class="boton-accion eliminar" data-id="${elemento.id}" data-accion="eliminar">Eliminar</button>
             </td>
         </tr>
     `).join('');
