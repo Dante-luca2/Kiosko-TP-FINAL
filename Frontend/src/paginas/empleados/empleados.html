@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosco</title>
+    <link rel="stylesheet" href="../../../estilos.css">
+    <link rel="stylesheet" href="../../componentes/slidebar.css">
+</head>
+<body>
+    <div class="layout">
+        <div id="slidebar"></div>
+        <div id="contenido">
+            <div class="cabecera">
+                <div class="titulos">
+                    <h1>Empleados</h1>
+                    <h2>Personal que opera el sistema</h2>
+                </div>
+                <button id="boton-nuevo" class="boton-primario">Nuevo empleado</button>
+            </div>
+            <div class="contenedor-tabla">
+                <table class="tabla-datos">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cargo</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Contacto</th>
+                            <th scope="col">Sueldo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-empleados">
+                        <tr>
+                            <td colspan="6">Cargando empleados...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-añadir-empleado" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Nuevo empleado</h2>
+                <span id="cerrar-modal-añadir" class="cerrar">&times;</span>
+            </div>
+            <form id="form-añadir-empleado" class="formulario-modal">
+                <label>Nombre completo</label>
+                <input type="text" name="nombre_completo">
+
+                <label>Fecha de nacimiento</label>
+                <input type="date" name="fecha_nacimiento">
+
+                <label>DNI</label>
+                <input type="text" name="dni">
+
+                <label>Cargo</label>
+                <input type="text" name="cargo">
+
+                <label>Contacto</label>
+                <input type="text" name="contacto">
+
+                <label>Correo</label>
+                <input type="email" name="correo">
+
+                <label>Sueldo</label>
+                <input type="number" name="sueldo">
+
+                <div class="acciones-form">
+                    <button type="button" id="cancelar-modal-añadir">Cancelar</button>
+                    <button type="submit" class="boton-primario">Añadir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast oculto"></div>
+
+
+    <div id="modal-modificar-empleado" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Modificar empleado</h2>
+                <span id="cerrar-modal-modificar" class="cerrar">&times;</span>
+            </div>
+            <form id="form-modificar-empleado" class="formulario-modal">
+                <label>Nombre completo</label>
+                <input type="text" name="nombre_completo">
+
+                <label>Fecha de nacimiento</label>
+                <input type="date" name="fecha_nacimiento">
+
+                <label>DNI</label>
+                <input type="text" name="dni">
+
+                <label>Cargo</label>
+                <input type="text" name="cargo">
+
+                <label>Contacto</label>
+                <input type="text" name="contacto">
+
+                <label>Correo</label>
+                <input type="email" name="correo">
+
+                <label>Sueldo</label>
+                <input type="number" name="sueldo">
+
+                <div class="acciones-form">
+                    <button type="button" id="cancelar-modal-modificar">Cancelar</button>
+                    <button type="submit" class="boton-primario">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-eliminar-empleado" class="modal oculto">
+        <div class="modal-contenido modal-confirmacion">
+            <div class="icono-alerta">!</div>
+            <h2>¿Eliminar empleado?</h2>
+            <p id="mensaje-eliminar">Esta acción no se puede deshacer.</p>
+            <div class="acciones-confirmacion">
+                <button type="button" id="cancelar-eliminar" class="boton-secundario">Cancelar</button>
+                <button type="button" id="confirmar-eliminar" class="boton-peligro">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./empleados.js"></script>
+</body>
+</html>
