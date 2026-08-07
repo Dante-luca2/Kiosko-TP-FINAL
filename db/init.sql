@@ -62,3 +62,5 @@ INSERT INTO movimiento (producto_id, proveedor_id, tipo, cantidad, precio_unitar
     (1, NULL, 'venta', 5, 800, 0),
     (2, 2, 'compra', 10, 1300, 0),
     (4, NULL, 'regalo', 1, 0, 0);
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin;
