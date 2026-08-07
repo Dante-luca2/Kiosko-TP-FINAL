@@ -97,3 +97,161 @@ body {
 .boton-accion.eliminar {
     color: #c0392b;
 }
+
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.oculto {
+    display: none;
+}
+
+.modal-contenido {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.modal-cabecera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.cerrar {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #888;
+}
+
+/* FORMULARIOS DENTRO DE LOS MODALES (añadir y modificar) */
+
+.formulario-modal label {
+    display: block;
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 0.75rem;
+    margin-bottom: 4px;
+}
+
+.formulario-modal input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.acciones-form {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 1.25rem;
+}
+
+.modal-confirmacion {
+    text-align: center;
+}
+
+.modal-confirmacion h2 {
+    margin: 0 0 8px;
+}
+
+.modal-confirmacion p {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 1.25rem;
+}
+
+.boton-peligro {
+    background-color: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.boton-peligro:hover {
+    background-color: #a93226;
+}
+
+.boton-secundario {
+    background: none;
+    border: 1px solid #ccc;
+    color: #555;
+    padding: 0.6rem 1.1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.boton-secundario:hover {
+    background-color: #f4f4f4;
+}
+
+/* TOAST DE  ALERTAS */
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toast.exito {
+    background-color: #d4f4dd;
+    color: #1e7e34;
+}
+
+.toast.error {
+    background-color: #fadbd8;
+    color: #c0392b;
+}
+
+.toast.oculto {
+    display: none;
+}
+
+.icono-alerta {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #fadbd8;
+    color: #c0392b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0 auto 1rem;
+}
+
+.acciones-confirmacion {
+    display: flex;
+    gap: 8px;
+}
+
+.acciones-confirmacion button {
+    flex: 1;
+}
