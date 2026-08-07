@@ -3,19 +3,17 @@ const { Pool } = require('pg');
 const cors = require('cors');
 
 const app = express();
-app.use(cors()); // Permite peticiones desde el archivo HTML local
+app.use(cors()); 
 app.use(express.json());
 
-// Conexión a la base de datos configurada en Docker
 const pool = new Pool({
-  user: 'admin',
-  host: 'localhost',
-  database: 'kiosco_db',
-  password: 'secretpassword',
-  port: 5432,
+  user: process.env.DB_USER || 'admin',
+  host: process.env.DB_HOST || 'db',
+  password: process.env.DB_PASSWORD || 'secretpassword',
+  database: process.env.DB_NAME || 'kiosco_db',
+  port: process.env.DB_PORT || 5432,
 });
 
-// Ruta API para obtener todos los productos
 app.get('/api/productos', async (req, res) => {
   try {
     const resultado = await pool.query('SELECT * FROM producto ORDER BY id ASC;');
@@ -27,5 +25,5 @@ app.get('/api/productos', async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log('Servidor corriendo en http://localhost:3000');
+  console.log('Servidor corriendo en el puerto 3000');
 });
