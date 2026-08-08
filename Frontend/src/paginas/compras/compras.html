@@ -17,6 +17,7 @@
                     <a href="../compras/compras.html" class="pestaña activa">Compras</a>
                     <a href="../ajustes/ajustes.html" class="pestaña">Ajustes</a>
                 </div>
+                <button type="button" id="boton-nuevo" class="boton-primario">Registrar compra</button>
             </div>
             <div class="contenedor-tabla">
                 <table class="tabla-datos">
@@ -40,6 +41,38 @@
             </div>
         </div>
     </div>
+
+    <div id="modal-registrar-compra" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Agregar nueva compra</h2>
+                <span id="cerrar-modal-compra" class="cerrar">&times;</span>
+            </div>
+            <form id="form-registrar-compra" class="formulario-modal">
+                <label>Producto</label>
+                <select name="producto_id" id="select-producto"></select>
+
+                <label>Proveedor</label>
+                <select name="proveedor_id" id="select-proveedor"></select>
+
+                <label>Empleado</label>
+                <select name="empleado_id" id="select-empleado"></select>
+
+                <label>Cantidad</label>
+                <input type="number" name="cantidad" min="0">
+
+                <label>Precio unitario</label>
+                <input type="number" name="precio_unitario" min="0">
+
+                <div class="acciones-form">
+                    <button type="button" id="cancelar-modal-compra" class="boton-secundario">Cancelar</button>
+                    <button type="submit" class="boton-primario">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast oculto"></div>
 
     <script type="module" src="./compras.js"></script>
 </body>

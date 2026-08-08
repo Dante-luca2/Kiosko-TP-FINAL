@@ -171,7 +171,8 @@ body {
     margin-bottom: 4px;
 }
 
-.formulario-modal input {
+.formulario-modal input,
+.formulario-modal select {
     width: 100%;
     box-sizing: border-box;
     padding: 0.5rem;
