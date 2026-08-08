@@ -13,29 +13,27 @@
         <div id="contenido">
             <div class="cabecera">
                 <div class="pestañas">
-                    <a href="../ventas/ventas.html" class="pestaña activa">Ventas</a>
-                    <a href="../compras/compras.html" class="pestaña">Compras</a>
+                    <a href="../ventas/ventas.html" class="pestaña">Ventas</a>
+                    <a href="../compras/compras.html" class="pestaña activa">Compras</a>
                     <a href="../ajustes/ajustes.html" class="pestaña">Ajustes</a>
                 </div>
-                <button type="button" id="boton-nuevo" class="boton-primario">Registrar venta</button>
             </div>
             <div class="contenedor-tabla">
                 <table class="tabla-datos">
                     <thead>
                         <tr>
                             <th scope="col">Producto</th>
+                            <th scope="col">Proveedor</th>
                             <th scope="col">Empleado</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Precio unitario</th>
-                            <th scope="col">Descuento</th>
                             <th scope="col">Total</th>
                             <th scope="col">Fecha</th>
-                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-ventas">
+                    <tbody id="tabla-compras">
                         <tr>
-                            <td colspan="8">Cargando ventas...</td>
+                            <td colspan="7">Cargando compras...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -43,6 +41,6 @@
         </div>
     </div>
 
-    <script type="module" src="./ventas.js"></script>
+    <script type="module" src="./compras.js"></script>
 </body>
 </html>
