@@ -43,6 +43,50 @@
         </div>
     </div>
 
+    <div id="modal-registrar-venta" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Registrar venta</h2>
+                <span id="cerrar-modal-venta" class="cerrar">&times;</span>
+            </div>
+            <form id="form-registrar-venta" class="formulario-modal">
+                <label>Producto</label>
+                <select name="producto_id" id="select-producto"></select>
+
+                <label>Empleado</label>
+                <select name="empleado_id" id="select-empleado"></select>
+
+                <label>Cantidad</label>
+                <input type="number" name="cantidad" min="0">
+
+                <label>Precio unitario</label>
+                <input type="number" name="precio_unitario" min="0">
+
+                <label>Descuento</label>
+                <input type="number" name="descuento" min="0" value="0">
+
+                <div class="acciones-form">
+                    <button type="button" id="cancelar-modal-venta" class="boton-secundario">Cancelar</button>
+                    <button type="submit" class="boton-primario">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-eliminar-venta" class="modal oculto">
+        <div class="modal-contenido modal-confirmacion">
+            <div class="icono-alerta">!</div>
+            <h2>¿Eliminar venta?</h2>
+            <p id="mensaje-eliminar-venta">Esta acción no se puede deshacer.</p>
+            <div class="acciones-confirmacion">
+                <button type="button" id="cancelar-eliminar-venta" class="boton-secundario">Cancelar</button>
+                <button type="button" id="confirmar-eliminar-venta" class="boton-peligro">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast oculto"></div>
+
     <script type="module" src="./ventas.js"></script>
 </body>
 </html>
