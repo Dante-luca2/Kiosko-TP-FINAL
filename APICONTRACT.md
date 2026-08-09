@@ -204,13 +204,17 @@ Objetivo: Obtener todas las ventas de la tienda, opcionalmente filtradas.
 - `GET /api/ventas?producto_id=1` → solo ventas de ese producto.
 - `GET /api/ventas?empleado_id=1` → solo ventas registradas por ese empleado.
 
+El listado viene con `JOIN` contra `producto` y `empleados`, así el frontend no tiene que pedir cada nombre por separado. Los `_id` originales se mantienen (se siguen necesitando para el formulario de alta).
+
 **Respuesta**:
 ```json
 [
   {
     "id": 1,
     "producto_id": 1,
+    "producto_nombre": "Coca Cola 500ml",
     "empleado_id": 1,
+    "empleado_nombre": "Julián Pérez",
     "cantidad": 1,
     "precio_unitario": 1200,
     "descuento": 0,
@@ -220,6 +224,8 @@ Objetivo: Obtener todas las ventas de la tienda, opcionalmente filtradas.
 ```
 
 ### GET /api/ventas/:id
+
+Este endpoint **no** trae los nombres (solo el listado los agrega); devuelve la fila tal cual está en la tabla, para el formulario de edición.
 
 Objetivo: Obtener una venta de la tienda.
 
@@ -287,14 +293,19 @@ Objetivo: Obtener todas las compras de la tienda, opcionalmente filtradas.
 - `GET /api/compras?proveedor_id=1` → solo compras a ese proveedor.
 - `GET /api/compras?empleado_id=1` → solo compras registradas por ese empleado.
 
+El listado viene con `JOIN` contra `producto`, `proveedor` y `empleados`, así el frontend no tiene que pedir cada nombre por separado. Los `_id` originales se mantienen (se siguen necesitando para el formulario de alta). El `JOIN` contra `proveedor` es `LEFT JOIN`: si el proveedor de una compra fue borrado, la compra sigue apareciendo en el historial con `proveedor_id: null` y `proveedor_nombre: null` en vez de desaparecer del listado.
+
 **Respuesta**:
 ```json
 [
   {
     "id": 1,
     "producto_id": 1,
+    "producto_nombre": "Coca Cola 500ml",
     "proveedor_id": 1,
+    "proveedor_nombre": "Distribuidora Norte",
     "empleado_id": 1,
+    "empleado_nombre": "Julián Pérez",
     "cantidad": 1,
     "precio_unitario": 1200,
     "fecha": "2026-08-02T14:30:00Z"
@@ -303,6 +314,8 @@ Objetivo: Obtener todas las compras de la tienda, opcionalmente filtradas.
 ```
 
 ### GET /api/compras/:id
+
+Este endpoint **no** trae los nombres (solo el listado los agrega); devuelve la fila tal cual está en la tabla, para el formulario de edición.
 
 Objetivo: Obtener una compra de la tienda.
 
@@ -475,13 +488,17 @@ Objetivo: Obtener todos los ajustes de la tienda, opcionalmente filtrados.
 - `GET /api/ajustes?producto_id=1` → solo ajustes de ese producto.
 - `GET /api/ajustes?empleado_id=1` → solo ajustes hechos por ese empleado.
 
+El listado viene con `JOIN` contra `producto` y `empleados`, así el frontend no tiene que pedir cada nombre por separado. Los `_id` originales se mantienen (se siguen necesitando para el formulario de alta).
+
 **Respuesta**:
 ```json
 [
   {
     "id": 1,
     "producto_id": 1,
+    "producto_nombre": "Edición limitada de figuritas",
     "empleado_id": 1,
+    "empleado_nombre": "Dante Ortega",
     "cantidad": -1,
     "motivo": "Producto dañado, se descarta del stock",
     "fecha": "2026-08-02T14:30:00Z"
@@ -490,6 +507,8 @@ Objetivo: Obtener todos los ajustes de la tienda, opcionalmente filtrados.
 ```
 
 ### GET /api/ajustes/:id
+
+Este endpoint **no** trae los nombres (solo el listado los agrega); devuelve la fila tal cual está en la tabla, para el formulario de edición.
 
 Objetivo: Obtener un ajuste de la tienda.
 
@@ -534,5 +553,3 @@ Objetivo: Eliminar un ajuste. Antes de borrar la fila, revierte su efecto sobre 
   "fecha": "2026-08-02T14:30:00Z"
 }
 ```
-
-
