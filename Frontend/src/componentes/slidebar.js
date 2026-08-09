@@ -5,7 +5,6 @@ export function renderNav(paginaActiva) {
         { href: '/proveedores.html', id: 'proveedores', texto: 'Proveedores' },
         { href: '/src/paginas/empleados/empleados.html', id: 'empleados', texto: 'Empleados' },
         { href: '/categorias.html', id: 'categorias', texto: 'Categorías' },
-        { href: '/reportes.html', id: 'reportes', texto: 'Reportes' },
     ];
 
     const items = links.map(link => `
