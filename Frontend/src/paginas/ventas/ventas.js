@@ -7,9 +7,9 @@ import { getEmpleados } from '../../servicios/empleados.js';
 
 document.querySelector('#slidebar').innerHTML = renderNav('movimientos');
 
-// EL APARTADO DE DATOS BASE (para poblar los selects del formulario)
-
 let ventas = [];
+
+// EL APARTADO DE CARGA DE DATOS (productos, empleados y ventas)
 
 async function cargarDatos() {
     try {
@@ -18,8 +18,8 @@ async function cargarDatos() {
             getEmpleados(),
         ]);
 
-        poblarSelect('#select-producto', productos, 'nombre');
-        poblarSelect('#select-empleado', empleados, 'nombre_completo');
+        cargarSelect('#select-producto', productos, 'nombre');
+        cargarSelect('#select-empleado', empleados, 'nombre_completo');
 
         await cargarVentas();
     } catch (error) {
@@ -29,14 +29,12 @@ async function cargarDatos() {
     }
 }
 
-function poblarSelect(selector, lista, campoNombre) {
+function cargarSelect(selector, lista, campoNombre) {
     const select = document.querySelector(selector);
     select.innerHTML = lista.map(elemento => `
         <option value="${elemento.id}">${elemento[campoNombre]}</option>
     `).join('');
 }
-
-// EL APARTADO DE LA TABLA DE VENTAS
 
 async function cargarVentas() {
     try {
@@ -48,6 +46,8 @@ async function cargarVentas() {
         console.error('Mensaje:', error.response?.data);
     }
 }
+
+// EL APARTADO DE CREAR Y ELIMINAR (llamadas al backend)
 
 async function crearVenta(datos) {
     try {
@@ -75,7 +75,7 @@ async function eliminarVenta(id) {
     }
 }
 
-// FUNCION QUE RENDERIZA LA TABLA DE VENTAS
+// EL APARTADO DE RENDERIZAR LA TABLA
 
 function render() {
     const tbody = document.querySelector('#tabla-ventas');
@@ -95,7 +95,7 @@ function render() {
     `).join('');
 }
 
-// EL APARTADO DEL TOAST
+// EL APARTADO DE LOS MENSAJES TOAST
 
 function mostrarToast(mensaje, tipo = 'exito') {
     const toast = document.querySelector('#toast');
@@ -108,7 +108,7 @@ function mostrarToast(mensaje, tipo = 'exito') {
     }, 3000);
 }
 
-// EL APARTADO DEL MODAL DE REGISTRAR VENTA
+// EL APARTADO DEL MODAL DE REGISTRAR VENTA (eventos)
 
 const modalRegistrar = document.querySelector('#modal-registrar-venta');
 const formRegistrar = document.querySelector('#form-registrar-venta');
@@ -141,7 +141,7 @@ formRegistrar.addEventListener('submit', async (e) => {
     modalRegistrar.classList.add('oculto');
 });
 
-// EL APARTADO DEL MODAL DE CONFIRMAR ELIMINAR
+// EL APARTADO DEL MODAL DE CONFIRMAR ELIMINAR (eventos)
 
 const modalEliminar = document.querySelector('#modal-eliminar-venta');
 const mensajeEliminar = document.querySelector('#mensaje-eliminar-venta');
@@ -167,5 +167,7 @@ document.querySelector('#confirmar-eliminar-venta').addEventListener('click', as
     modalEliminar.classList.add('oculto');
     idAEliminar = null;
 });
+
+// INICIO
 
 cargarDatos();

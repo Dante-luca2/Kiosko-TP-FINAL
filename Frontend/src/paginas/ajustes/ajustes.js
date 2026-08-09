@@ -7,9 +7,9 @@ import { getEmpleados } from '../../servicios/empleados.js';
 
 document.querySelector('#slidebar').innerHTML = renderNav('movimientos');
 
-// EL APARTADO DE DATOS BASE (para poblar los selects del formulario)
-
 let ajustes = [];
+
+// EL APARTADO DE CARGA DE DATOS (productos, empleados y ajustes)
 
 async function cargarDatos() {
     try {
@@ -17,7 +17,7 @@ async function cargarDatos() {
             getProductos(),
             getEmpleados(),
         ]);
-        
+
         cargarSelect('#select-producto', productos, 'nombre');
         cargarSelect('#select-empleado', empleados, 'nombre_completo');
 
@@ -28,8 +28,6 @@ async function cargarDatos() {
         console.error('Mensaje:', error.response?.data);
     }
 }
-
-// FUNCION PARA CARGAR LOS DATOS A LOS SELECTS DEL FORMULARIO
 
 function cargarSelect(selector, lista, campoNombre) {
     const select = document.querySelector(selector);
@@ -43,14 +41,16 @@ async function cargarAjustes() {
         ajustes = await getAjustes();
         render();
     } catch (error) {
-        console.error('Algo falló al pedir las compras');
+        console.error('Algo falló al pedir los ajustes');
         console.error('Status:', error.response?.status);
         console.error('Mensaje:', error.response?.data);
     }
 }
 
+// EL APARTADO DE CREAR Y ELIMINAR (llamadas al backend)
+
 async function crearAjuste(datos) {
-    try { 
+    try {
         await postAjuste(datos);
         await cargarAjustes();
         mostrarToast('Ajuste creado correctamente');
@@ -75,7 +75,7 @@ async function eliminarAjuste(id) {
     }
 }
 
-// FUNCION PARA RENDERIZAR LA TABLA DE AJUSTES
+// EL APARTADO DE RENDERIZAR LA TABLA
 
 function render() {
     const tbody = document.querySelector('#tabla-ajustes');
@@ -106,7 +106,7 @@ function mostrarToast(mensaje, tipo = 'exito') {
     }, 3000);
 }
 
-// EL APARTADO DEL MODAL DE CREACION DE AJUSTES
+// EL APARTADO DEL MODAL DE CREAR AJUSTE (eventos)
 
 const modalAñadir = document.querySelector('#modal-registrar-ajuste');
 const formAñadir = document.querySelector('#form-registrar-ajuste');
@@ -138,7 +138,7 @@ formAñadir.addEventListener('submit', async (e) => {
     modalAñadir.classList.add('oculto');
 });
 
-// EL APARTADO DEL MODAL DE CONFIRMAR ELIMINAR
+// EL APARTADO DEL MODAL DE CONFIRMAR ELIMINAR (eventos)
 
 const modalEliminar = document.querySelector('#modal-eliminar-ajuste');
 const mensajeEliminar = document.querySelector('#mensaje-eliminar-ajuste');
@@ -165,4 +165,6 @@ document.querySelector('#confirmar-eliminar-ajuste').addEventListener('click', a
     idAEliminar = null;
 });
 
-cargarAjustes();
+// INICIO
+
+cargarDatos();

@@ -8,9 +8,9 @@ import { getEmpleados } from '../../servicios/empleados.js';
 
 document.querySelector('#slidebar').innerHTML = renderNav('movimientos');
 
-// EL APARTADO DE DATOS BASE (para poblar los selects del formulario)
-
 let compras = [];
+
+// EL APARTADO DE CARGA DE DATOS (productos, proveedores, empleados y compras)
 
 async function cargarDatos() {
     try {
@@ -32,16 +32,12 @@ async function cargarDatos() {
     }
 }
 
-// FUNCION PARA CARGAR LOS DATOS A LOS SELECTS DEL FORMULARIO
-
 function cargarSelect(selector, lista, campoNombre) {
     const select = document.querySelector(selector);
     select.innerHTML = lista.map(elemento => `
         <option value="${elemento.id}">${elemento[campoNombre]}</option>
     `).join('');
 }
-
-// EL APARTADO DE LA TABLA DE COMPRAS
 
 async function cargarCompras() {
     try {
@@ -53,6 +49,8 @@ async function cargarCompras() {
         console.error('Mensaje:', error.response?.data);
     }
 }
+
+// EL APARTADO DE CREAR (llamada al backend)
 
 async function crearCompra(datos) {
     try {
@@ -66,6 +64,8 @@ async function crearCompra(datos) {
         mostrarToast('No se pudo crear la compra', 'error');
     }
 }
+
+// EL APARTADO DE RENDERIZAR LA TABLA
 
 function render() {
     const tbody = document.querySelector('#tabla-compras');
@@ -95,7 +95,7 @@ function mostrarToast(mensaje, tipo = 'exito') {
     }, 3000);
 }
 
-// EL APARTADO DEL MODAL DE CREACIÓN DE COMPRAS
+// EL APARTADO DEL MODAL DE CREAR COMPRA (eventos)
 
 const modalAñadir = document.querySelector('#modal-registrar-compra');
 const formAñadir = document.querySelector('#form-registrar-compra');
@@ -126,5 +126,7 @@ formAñadir.addEventListener('submit', async (e) => {
     await crearCompra(datos);
     modalAñadir.classList.add('oculto');
 });
+
+// INICIO
 
 cargarDatos();
