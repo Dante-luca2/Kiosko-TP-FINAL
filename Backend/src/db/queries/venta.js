@@ -6,15 +6,31 @@ async function getAll({ producto_id, empleado_id } = {}) {
 
   if (producto_id) {
     valores.push(producto_id);
-    condiciones.push(`producto_id = $${valores.length}`);
+    condiciones.push(`venta.producto_id = $${valores.length}`);
   }
   if (empleado_id) {
     valores.push(empleado_id);
-    condiciones.push(`empleado_id = $${valores.length}`);
+    condiciones.push(`venta.empleado_id = $${valores.length}`);
   }
 
   const where = condiciones.length ? `WHERE ${condiciones.join(' AND ')}` : '';
-  const query = `SELECT * FROM venta ${where} ORDER BY fecha DESC`;
+  const query = `
+    SELECT
+      venta.id,
+      venta.producto_id,
+      producto.nombre AS producto_nombre,
+      venta.empleado_id,
+      empleados.nombre_completo AS empleado_nombre,
+      venta.cantidad,
+      venta.precio_unitario,
+      venta.descuento,
+      venta.fecha
+    FROM venta
+    JOIN producto ON venta.producto_id = producto.id
+    JOIN empleados ON venta.empleado_id = empleados.id
+    ${where}
+    ORDER BY venta.fecha DESC
+  `;
   const { rows } = await pool.query(query, valores);
   return rows;
 }
