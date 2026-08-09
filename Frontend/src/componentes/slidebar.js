@@ -1,6 +1,6 @@
 export function renderNav(paginaActiva) {
     const links = [
-        { href: '/index.html', id: 'productos', texto: 'Productos' },
+        { href: '/src/paginas/productos/productos.html', id: 'productos', texto: 'Productos' },
         { href: '/movimientos.html', id: 'movimientos', texto: 'Movimientos' },
         { href: '/proveedores.html', id: 'proveedores', texto: 'Proveedores' },
         { href: '/src/paginas/empleados/empleados.html', id: 'empleados', texto: 'Empleados' },
