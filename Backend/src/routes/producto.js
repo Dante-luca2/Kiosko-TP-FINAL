@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { producto: productoQueries } = require('../db/queries');
+const upload = require('../middlewares/upload');
 
 const TIPOS_VALIDOS = ['normal', 'limitado', 'estacional'];
 
@@ -26,7 +27,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', upload.single('imagen'), async (req, res) => {
   try {
     const { nombre, precio, stock, tipo } = req.body;
 
@@ -36,11 +37,13 @@ router.post('/', async (req, res) => {
     if (!TIPOS_VALIDOS.includes(tipo)) {
       return res.status(400).json({ error: `tipo debe ser uno de: ${TIPOS_VALIDOS.join(', ')}` });
     }
-    if (precio < 0 || stock < 0) {
+    if (Number(precio) < 0 || Number(stock) < 0) {
       return res.status(400).json({ error: 'precio y stock no pueden ser negativos' });
     }
 
-    const nuevoProducto = await productoQueries.create(req.body);
+    const imagen_url = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const nuevoProducto = await productoQueries.create({ ...req.body, imagen_url });
     res.status(201).json(nuevoProducto);
   } catch (error) {
     console.error(error);
@@ -48,7 +51,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', upload.single('imagen'), async (req, res) => {
   try {
     const { nombre, precio, stock, tipo } = req.body;
 
@@ -58,11 +61,13 @@ router.put('/:id', async (req, res) => {
     if (!TIPOS_VALIDOS.includes(tipo)) {
       return res.status(400).json({ error: `tipo debe ser uno de: ${TIPOS_VALIDOS.join(', ')}` });
     }
-    if (precio < 0 || stock < 0) {
+    if (Number(precio) < 0 || Number(stock) < 0) {
       return res.status(400).json({ error: 'precio y stock no pueden ser negativos' });
     }
 
-    const productoActualizado = await productoQueries.update(req.params.id, req.body);
+    const imagen_url = req.file ? `/uploads/${req.file.filename}` : req.body.imagen_url || null;
+
+    const productoActualizado = await productoQueries.update(req.params.id, { ...req.body, imagen_url });
     if (!productoActualizado) return res.status(404).json({ error: 'Producto no encontrado' });
     res.json(productoActualizado);
   } catch (error) {

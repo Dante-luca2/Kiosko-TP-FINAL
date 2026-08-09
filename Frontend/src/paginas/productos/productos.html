@@ -30,6 +30,7 @@
                             <th scope="col">Categoria</th>
                             <th scope="col">Persistencia</th>
                             <th scope="col">Stock (Minimo)</th>
+                            <th scope="col">Imagen</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -74,6 +75,9 @@
                 <label>Stock (Minimo)</label>
                 <input type="number" name="stock_minimo">
 
+                <label>Imagen</label>
+                <input type="file" name="imagen" accept="image/*">
+
                 <div class="acciones-form">
                     <button type="button" id="cancelar-modal-añadir">Cancelar</button>
                     <button type="submit" class="boton-primario">Añadir</button>
@@ -116,11 +120,25 @@
                 <label>Stock (Minimo)</label>
                 <input type="number" name="stock_minimo">
 
+                <label>Imagen</label>
+                <input type="file" name="imagen" accept="image/*">
+                <input type="hidden" name="imagen_url">
+
                 <div class="acciones-form">
                     <button type="button" id="cancelar-modal-modificar">Cancelar</button>
                     <button type="submit" class="boton-primario">Guardar cambios</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div id="modal-ver-imagen" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Imagen del producto</h2>
+                <span id="cerrar-modal-imagen" class="cerrar">&times;</span>
+            </div>
+            <img id="imagen-grande" src="" alt="Imagen del producto" style="max-width: 100%; display: block; margin: 0 auto;">
         </div>
     </div>
 

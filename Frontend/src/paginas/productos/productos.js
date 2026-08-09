@@ -1,5 +1,5 @@
 import { renderNav } from '../../componentes/slidebar.js';
-import { getProductos, deleteProducto, postProducto, putProducto } from '../../servicios/productos.js';
+import { getProductos, deleteProducto, postProducto, putProducto, urlCompleta } from '../../servicios/productos.js';
 
 // EL APARTADO DEL SLIDEBAR
 
@@ -20,9 +20,9 @@ async function cargarProductos() {
     }
 }
 
-async function crearProducto(datos) {
+async function crearProducto(datos, archivo) {
     try {
-        await postProducto(datos);
+        await postProducto(datos, archivo);
         await cargarProductos();
         mostrarToast('Producto creado correctamente');
     } catch (error) {
@@ -32,9 +32,9 @@ async function crearProducto(datos) {
     }
 }
 
-async function editarProducto(id, datos) {
+async function editarProducto(id, datos, archivo) {
     try {
-        await putProducto(id, datos);
+        await putProducto(id, datos, archivo);
         await cargarProductos();
         mostrarToast('Producto editado correctamente');
     } catch (error) {
@@ -83,6 +83,11 @@ function render() {
             <td>${elemento.categoria_id}</td>
             <td>${elemento.tipo}</td>
             <td>${elemento.stock_minimo}</td>
+            <td>
+                ${elemento.imagen_url
+                    ? `<button class="boton-accion" data-id="${elemento.id}" data-accion="ver-imagen">Ver imagen</button>`
+                    : `<span>Sin imagen</span>`}
+            </td>
             <td class="celda-acciones">
                 <button class="boton-accion" data-id="${elemento.id}" data-accion="editar">Editar</button>
                 <button class="boton-accion eliminar" data-id="${elemento.id}" data-accion="eliminar">Eliminar</button>
@@ -96,6 +101,8 @@ function render() {
 const modalAñadir = document.querySelector('#modal-añadir-producto');
 const modalModificar = document.querySelector('#modal-modificar-producto');
 const modalEliminar = document.querySelector('#modal-eliminar-producto');
+const modalVerImagen = document.querySelector('#modal-ver-imagen');
+const imagenGrande = document.querySelector('#imagen-grande');
 const mensajeEliminar = document.querySelector('#mensaje-eliminar');
 const botonNuevo = document.querySelector('#boton-nuevo');
 const formAñadir = document.querySelector('#form-añadir-producto');
@@ -134,8 +141,12 @@ document.querySelector('#confirmar-eliminar').addEventListener('click', async ()
     idAEliminar = null;
 });
 
-// EL APARTADO DE LOS SUBMIT DE LOS FORMULARIOS
+document.querySelector('#cerrar-modal-imagen').addEventListener('click', () => {
+    modalVerImagen.classList.add('oculto');
+    imagenGrande.src = '';
+});
 
+// EL APARTADO DE LOS SUBMIT DE LOS FORMULARIOS
 
 formAñadir.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -150,10 +161,12 @@ formAñadir.addEventListener('submit', async (e) => {
         tipo: formAñadir.elements.tipo.value,
         stock_minimo: formAñadir.elements.stock_minimo.value,
     };
+    const archivo = formAñadir.elements.imagen.files[0] || null;
 
-    await crearProducto(datos);
+    await crearProducto(datos, archivo);
     modalAñadir.classList.add('oculto');
 });
+
 formModificar.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -166,13 +179,15 @@ formModificar.addEventListener('submit', async (e) => {
         categoria_id: formModificar.elements.categoria_id.value,
         tipo: formModificar.elements.tipo.value,
         stock_minimo: formModificar.elements.stock_minimo.value,
+        imagen_url: formModificar.elements.imagen_url.value, // se mantiene si no hay imagen nueva
     };
+    const archivo = formModificar.elements.imagen.files[0] || null;
 
-    await editarProducto(idAEditar, datos);
+    await editarProducto(idAEditar, datos, archivo);
     modalModificar.classList.add('oculto');
 });
 
-// EL APARTADO DE ACCIONES DE LA TABLA (editar / eliminar)
+// EL APARTADO DE ACCIONES DE LA TABLA (editar / eliminar / ver imagen)
 
 document.querySelector('#tabla-producto').addEventListener('click', (e) => {
     const boton = e.target.closest('button');
@@ -181,25 +196,33 @@ document.querySelector('#tabla-producto').addEventListener('click', (e) => {
     const id = boton.dataset.id;
 
     if (boton.dataset.accion === 'eliminar') {
-        const productos = producto.find(emp => emp.id == id);
+        const productoEncontrado = producto.find(p => p.id == id);
         idAEliminar = id;
-        mensajeEliminar.textContent = `Esta acción no se puede deshacer. Se va a eliminar a ${producto.nombre} del sistema.`;
+        mensajeEliminar.textContent = `Esta acción no se puede deshacer. Se va a eliminar a ${productoEncontrado.nombre} del sistema.`;
         modalEliminar.classList.remove('oculto');
     }
 
     if (boton.dataset.accion === 'editar') {
-        const productos = producto.find(emp => emp.id == id);
+        const productoEncontrado = producto.find(p => p.id == id);
         idAEditar = id;
-        formModificar.elements.nombre.value = productos.nombre;
-        formModificar.elements.descripcion.value = productos.descripcion;
-        formModificar.elements.marca.value = productos.marca;
-        formModificar.elements.precio.value = productos.precio;
-        formModificar.elements.stock.value = productos.stock;
-        formModificar.elements.categoria_id.value = productos.categoria_id;
-        formModificar.elements.tipo.value = productos.tipo;
-        formModificar.elements.stock_minimo.value = productos.stock_minimo;
+        formModificar.reset();
+        formModificar.elements.nombre.value = productoEncontrado.nombre;
+        formModificar.elements.descripcion.value = productoEncontrado.descripcion;
+        formModificar.elements.marca.value = productoEncontrado.marca;
+        formModificar.elements.precio.value = productoEncontrado.precio;
+        formModificar.elements.stock.value = productoEncontrado.stock;
+        formModificar.elements.categoria_id.value = productoEncontrado.categoria_id;
+        formModificar.elements.tipo.value = productoEncontrado.tipo;
+        formModificar.elements.stock_minimo.value = productoEncontrado.stock_minimo;
+        formModificar.elements.imagen_url.value = productoEncontrado.imagen_url || '';
 
         modalModificar.classList.remove('oculto');
+    }
+
+    if (boton.dataset.accion === 'ver-imagen') {
+        const productoEncontrado = producto.find(p => p.id == id);
+        imagenGrande.src = urlCompleta(productoEncontrado.imagen_url);
+        modalVerImagen.classList.remove('oculto');
     }
 });
 

@@ -21,6 +21,9 @@ app.get('/health', async (req, res) => {
   }
 });
 
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 app.use('/api', routes);
 
 const PORT = process.env.PORT || 3000;
