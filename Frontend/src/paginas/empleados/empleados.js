@@ -56,6 +56,18 @@ async function eliminarEmpleado(id) {
     }
 }
 
+// FUNCION MOSTRAR MENSAJE AL TOAST
+
+function mostrarToast(mensaje, tipo = 'exito') {
+    const toast = document.querySelector('#toast');
+    const icono = tipo === 'exito' ? '✓' : '✕';
+    toast.textContent = `${icono} ${mensaje}`;
+    toast.className = `toast ${tipo}`;
+
+    setTimeout(() => {
+        toast.classList.add('oculto');
+    }, 3000);
+}
 
 // FUNCION QUE RENDERIZA LA TABLA DE EMPLEADOS
 
@@ -74,19 +86,6 @@ function render() {
             </td>
         </tr>
     `).join('');
-}
-
-// FUNCION MOSTRAR MENSAJE AL TOAST
-
-function mostrarToast(mensaje, tipo = 'exito') {
-    const toast = document.querySelector('#toast');
-    const icono = tipo === 'exito' ? '✓' : '✕';
-    toast.textContent = `${icono} ${mensaje}`;
-    toast.className = `toast ${tipo}`;
-
-    setTimeout(() => {
-        toast.classList.add('oculto');
-    }, 3000);
 }
 
 // EL APARTADO DE LOS MODALES (abrir / cerrar)
