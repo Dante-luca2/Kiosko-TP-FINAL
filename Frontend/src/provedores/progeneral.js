@@ -1,5 +1,5 @@
 import { renderNav } from '../../componentes/slidebar.js';
-import { getproveedores, deleteproveedores, postproveedores, putproveedores } from '../../servicios/empleados.js';
+import { getproveedores, deleteproveedores, postproveedores, putproveedores } from '../../servicios/proveedores.js';
 
 // EL APARTADO DEL SLIDEBAR
 
@@ -69,10 +69,10 @@ function mostrarToast(mensaje, tipo = 'exito') {
     }, 3000);
 }
 
-// FUNCION QUE RENDERIZA LA TABLA DE EMPLEADOS
+// FUNCION QUE RENDERIZA LA TABLA DE PROVEEDORES
 
 function render() {
-    const tbody = document.querySelector('#tabla-proveedores');
+    const tbody = document.querySelector('#tabla-proveedores tbody');
     tbody.innerHTML = proveedores.map(elemento => `
         <tr>
             <td>${elemento.nombre}${elemento.es_dueño ? ' <strong>(Dueño)</strong>' : ''}</td>
