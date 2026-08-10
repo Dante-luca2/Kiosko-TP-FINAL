@@ -431,7 +431,7 @@ Objetivo: Dar de baja lógica un empleado de la tienda (no se borra físicamente
 
 ## CATEGORIAS
 
-_Cada categoría guarda qué empleado la creó (`empleado_id`, obligatorio y fijo: no se puede cambiar por `PUT`). Sí tiene `DELETE` físico — falla con `400` si hay productos usando esa categoría (`ON DELETE RESTRICT` en la base)._
+_Cada categoría guarda qué empleado la creó (`empleado_id`, obligatorio y fijo: no se puede cambiar por `PUT`). Tiene `DELETE` físico: si hay productos usando esa categoría, no se bloquea el borrado — esos productos quedan sin categoría (`categoria_id: null`), igual criterio que Compra/Proveedor (`ON DELETE SET NULL`)._
 
 ### GET /api/categorias
 
@@ -473,16 +473,11 @@ Objetivo: Modificar el `nombre` de una categoría. `empleado_id` no se puede mod
 
 ### DELETE /api/categorias/:id
 
-Objetivo: Eliminar físicamente una categoría. Si hay productos que usan esa categoría, la base la rechaza (`ON DELETE RESTRICT`) y el endpoint devuelve `400`.
+Objetivo: Eliminar físicamente una categoría. Los productos que la usaban quedan con `categoria_id: null` (sin categoría) — no hace falta reasignarlos antes de borrar.
 
-**Respuesta** (si se pudo eliminar):
+**Respuesta**:
 ```json
 { "id": 1, "nombre": "Bebidas", "empleado_id": 1 }
-```
-
-**Error** (si hay productos asociados):
-```json
-{ "error": "No se puede eliminar: hay productos que usan esta categoria" }
 ```
 
 ## AJUSTES
@@ -553,3 +548,17 @@ Objetivo: Crear un ajuste en la tienda. Si `cantidad` es negativa, valida que no
 ```
 
 ### DELETE /api/ajustes/:id
+
+Objetivo: Eliminar un ajuste. Antes de borrar la fila, revierte su efecto sobre el `stock` del producto (`stock = stock - cantidad`, deshaciendo la corrección que había aplicado).
+
+**Respuesta**:
+```json
+{
+  "id": 1,
+  "producto_id": 1,
+  "empleado_id": 1,
+  "cantidad": -1,
+  "motivo": "Producto dañado, se descarta del stock",
+  "fecha": "2026-08-02T14:30:00Z"
+}
+```

@@ -73,9 +73,6 @@ router.delete('/:id', async (req, res) => {
     res.json(categoriaEliminada);
   } catch (error) {
     console.error(error);
-    if (error.code === '23503') {
-      return res.status(400).json({ error: 'No se puede eliminar: hay productos que usan esta categoria' });
-    }
     res.status(500).json({ error: 'Error al eliminar la categoria' });
   }
 });

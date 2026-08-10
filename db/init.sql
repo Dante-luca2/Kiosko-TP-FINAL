@@ -47,7 +47,7 @@ CREATE TABLE producto (
     marca VARCHAR(100),
     precio INT NOT NULL CHECK (precio >= 0),
     stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0),
-    categoria_id INT REFERENCES categoria(id) ON DELETE RESTRICT,
+    categoria_id INT REFERENCES categoria(id) ON DELETE SET NULL,
     tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('normal', 'limitado', 'estacional')),
     stock_minimo INT NOT NULL DEFAULT 0 CHECK (stock_minimo >= 0),
     imagen_url VARCHAR(255),
