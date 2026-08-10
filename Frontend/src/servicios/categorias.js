@@ -25,3 +25,9 @@ export async function putCategoria(categoriaId, datos){
     const respuesta = await api.put(`/categorias/${categoriaId}`, datos);
     return respuesta.data;
 }
+
+// DELETE /categorias/{categoriaId}
+export async function deleteCategoria(categoriaId){
+    const respuesta = await api.delete(`/categorias/${categoriaId}`);
+    return respuesta.data;
+}
