@@ -24,9 +24,9 @@ async function crearproveedor(datos) {
     try {
         await postproveedores(datos);
         await cargarproveedores();
-        mostrarToast('Proveedor creado correctamente');
+        mostrarToast('Proveedor agregado  correctamente');
     } catch (error) {
-        console.error('Algo falló al crear un proveedor');
+        console.error('Algo falló al agregar al  proveedor');
         console.error('Status:', error.response?.status);
         console.error('Mensaje:', error.response?.data);
     }
