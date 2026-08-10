@@ -4,7 +4,7 @@ export function renderNav(paginaActiva) {
         { href: '/src/paginas/compras/compras.html', id: 'compras', texto: 'Compras' },
         { href: '/proveedores.html', id: 'proveedores', texto: 'Proveedores' },
         { href: '/src/paginas/empleados/empleados.html', id: 'empleados', texto: 'Empleados' },
-        { href: '/categorias.html', id: 'categorias', texto: 'Categorías' },
+        { href: '/src/paginas/categorias/categorias.html', id: 'categorias', texto: 'Categorías' },
         { href: '/reportes.html', id: 'reportes', texto: 'Reportes' },
     ];
 

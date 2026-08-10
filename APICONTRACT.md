@@ -431,44 +431,58 @@ Objetivo: Dar de baja lógica un empleado de la tienda (no se borra físicamente
 
 ## CATEGORIAS
 
-_Tabla de referencia simple: sin `DELETE`._
+_Cada categoría guarda qué empleado la creó (`empleado_id`, obligatorio y fijo: no se puede cambiar por `PUT`). Sí tiene `DELETE` físico — falla con `400` si hay productos usando esa categoría (`ON DELETE RESTRICT` en la base)._
 
 ### GET /api/categorias
 
-Objetivo: Obtener todas las categorías de la tienda.
+Objetivo: Obtener todas las categorías de la tienda. El listado viene con `JOIN` contra `empleados`, así el frontend no tiene que pedir el nombre por separado.
 
 **Respuesta**:
 ```json
 [
-  { "id": 1, "nombre": "Bebidas" }
+  { "id": 1, "nombre": "Bebidas", "empleado_id": 1, "empleado_nombre": "Dante Ortega" }
 ]
 ```
 
 ### GET /api/categorias/:id
 
-Objetivo: Obtener una categoría de la tienda.
+Objetivo: Obtener una categoría de la tienda. Este endpoint **no** trae `empleado_nombre` (solo el listado lo agrega); devuelve la fila tal cual está en la tabla.
 
 **Respuesta**:
 ```json
-{ "id": 1, "nombre": "Bebidas" }
+{ "id": 1, "nombre": "Bebidas", "empleado_id": 1 }
 ```
 
 ### POST /api/categorias
 
-Objetivo: Crear una categoría en la tienda.
+Objetivo: Crear una categoría en la tienda. `empleado_id` es obligatorio: identifica quién la creó, y valida que el empleado exista (`404` si no).
+
+**Request**:
+```json
+{ "nombre": "Bebidas", "empleado_id": 1 }
+```
+
+### PUT /api/categorias/:id
+
+Objetivo: Modificar el `nombre` de una categoría. `empleado_id` no se puede modificar (es un dato de auditoría de quién la creó, se fija al crearla).
 
 **Request**:
 ```json
 { "nombre": "Bebidas" }
 ```
 
-### PUT /api/categorias/:id
+### DELETE /api/categorias/:id
 
-Objetivo: Modificar una categoría en la tienda.
+Objetivo: Eliminar físicamente una categoría. Si hay productos que usan esa categoría, la base la rechaza (`ON DELETE RESTRICT`) y el endpoint devuelve `400`.
 
-**Request**:
+**Respuesta** (si se pudo eliminar):
 ```json
-{ "nombre": "Bebidas" }
+{ "id": 1, "nombre": "Bebidas", "empleado_id": 1 }
+```
+
+**Error** (si hay productos asociados):
+```json
+{ "error": "No se puede eliminar: hay productos que usan esta categoria" }
 ```
 
 ## AJUSTES
@@ -539,17 +553,3 @@ Objetivo: Crear un ajuste en la tienda. Si `cantidad` es negativa, valida que no
 ```
 
 ### DELETE /api/ajustes/:id
-
-Objetivo: Eliminar un ajuste. Antes de borrar la fila, revierte su efecto sobre el `stock` del producto (`stock = stock - cantidad`, deshaciendo la corrección que había aplicado).
-
-**Respuesta**:
-```json
-{
-  "id": 1,
-  "producto_id": 1,
-  "empleado_id": 1,
-  "cantidad": -1,
-  "motivo": "Producto dañado, se descarta del stock",
-  "fecha": "2026-08-02T14:30:00Z"
-}
-```
