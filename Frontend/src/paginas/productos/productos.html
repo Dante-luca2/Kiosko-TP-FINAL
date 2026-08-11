@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosco</title>
+    <link rel="stylesheet" href="../../../estilos.css">
+    <link rel="stylesheet" href="../../componentes/slidebar.css">
+</head>
+<body>
+    <div class="layout">
+        <div id="slidebar"></div>
+        <div id="contenido">
+            <div class="cabecera">
+                <div class="titulos">
+                    <h1>Productos</h1>
+                    <h2>Que objetos hay disponible</h2>
+                </div>
+                <button id="boton-nuevo" class="boton-primario">Agregar Producto</button>
+            </div>
+            <div class="contenedor-tabla">
+                <table class="tabla-datos">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Persistencia</th>
+                            <th scope="col">Stock (Minimo)</th>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-producto">
+                        <tr>
+                            <td colspan="6">Cargando productos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-añadir-producto" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Nuevo producto</h2>
+                <span id="cerrar-modal-añadir" class="cerrar">&times;</span>
+            </div>
+            <form id="form-añadir-producto" class="formulario-modal">
+                <label>Nombre del producto</label>
+                <input type="text" name="nombre">
+
+                <label>Descripcion</label>
+                <input type="text" name="descripcion">
+
+                <label>Marca</label>
+                <input type="text" name="marca">
+
+                <label>Precio</label>
+                <input type="number" name="precio">
+
+                <label>Stock</label>
+                <input type="number" name="stock">
+
+                <label>Categoria (ID)</label>
+                <input type="number" name="categoria_id">
+
+                <label>Persistencia</label>
+                <input type="text" placeholder="'normal' 'limitado' 'estacional'" name="tipo">
+
+                <label>Stock (Minimo)</label>
+                <input type="number" name="stock_minimo">
+
+                <label>Imagen</label>
+                <input type="file" name="imagen" accept="image/*">
+
+                <div class="acciones-form">
+                    <button type="button" id="cancelar-modal-añadir">Cancelar</button>
+                    <button type="submit" class="boton-primario">Añadir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast oculto"></div>
+
+
+    <div id="modal-modificar-producto" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Modificar producto</h2>
+                <span id="cerrar-modal-modificar" class="cerrar">&times;</span>
+            </div>
+            <form id="form-modificar-producto" class="formulario-modal">
+                <label>Nombre del producto</label>
+                <input type="text" name="nombre">
+
+                <label>Descripcion</label>
+                <input type="text" name="descripcion">
+
+                <label>Marca</label>
+                <input type="text" name="marca">
+
+                <label>Precio</label>
+                <input type="number" name="precio">
+
+                <label>Stock</label>
+                <input type="number" name="stock">
+
+                <label>Categoria (ID)</label>
+                <input type="number" name="categoria_id">
+
+                <label>Persistencia</label>
+                <input type="text" placeholder="'normal' 'limitado' 'estacional'" name="tipo">
+
+                <label>Stock (Minimo)</label>
+                <input type="number" name="stock_minimo">
+
+                <label>Imagen</label>
+                <input type="file" name="imagen" accept="image/*">
+                <input type="hidden" name="imagen_url">
+
+                <div class="acciones-form">
+                    <button type="button" id="cancelar-modal-modificar">Cancelar</button>
+                    <button type="submit" class="boton-primario">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-ver-imagen" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Imagen del producto</h2>
+                <span id="cerrar-modal-imagen" class="cerrar">&times;</span>
+            </div>
+            <img id="imagen-grande" src="" alt="Imagen del producto" style="max-width: 100%; display: block; margin: 0 auto;">
+        </div>
+    </div>
+
+    <div id="modal-eliminar-producto" class="modal oculto">
+        <div class="modal-contenido modal-confirmacion">
+            <div class="icono-alerta">!</div>
+            <h2>¿Quiere eliminar este producto?</h2>
+            <p id="mensaje-eliminar">Esta acción no se puede deshacer.</p>
+            <div class="acciones-confirmacion">
+                <button type="button" id="cancelar-eliminar" class="boton-secundario">Cancelar</button>
+                <button type="button" id="confirmar-eliminar" class="boton-peligro">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./productos.js"></script>
+</body>
+</html>
