@@ -6,8 +6,8 @@
 
 - Dante luca ortega
 - Tomas valentin muruchi
-- Gay 1
-- Gay 2
+- German Barrionuevo
+- Esteban
 
 ## IDEA INICIAL: 
 

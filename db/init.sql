@@ -2,15 +2,6 @@
 --porque dependen de producto, proveedor y empleados.
 
 
-
--- CATEGORÍA
-
-CREATE TABLE categoria (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL UNIQUE
-);
-
-
 -- PROVEEDOR
 
 CREATE TABLE proveedor (
@@ -38,6 +29,14 @@ CREATE TABLE empleados (
     activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
+-- CATEGORÍA
+
+CREATE TABLE categoria (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    empleado_id INT NOT NULL REFERENCES empleados(id) ON DELETE RESTRICT
+);
+
 
 -- PRODUCTO
 
@@ -48,7 +47,7 @@ CREATE TABLE producto (
     marca VARCHAR(100),
     precio INT NOT NULL CHECK (precio >= 0),
     stock INT NOT NULL DEFAULT 0 CHECK (stock >= 0),
-    categoria_id INT REFERENCES categoria(id) ON DELETE RESTRICT,
+    categoria_id INT REFERENCES categoria(id) ON DELETE SET NULL,
     tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('normal', 'limitado', 'estacional')),
     stock_minimo INT NOT NULL DEFAULT 0 CHECK (stock_minimo >= 0),
     imagen_url VARCHAR(255),
@@ -95,8 +94,7 @@ CREATE TABLE ajuste (
 
 -- DATOS DE PRUEBA (opcional, para poder mostrar la app funcionando)
 
-INSERT INTO categoria (nombre) VALUES
-    ('Golosinas'), ('Bebidas'), ('Cigarrillos'), ('Almacén');
+
 
 INSERT INTO proveedor (nombre, contacto, telefono, rubro, direccion) VALUES
     ('Distribuidora Norte', 'Juan Pérez', '11-4444-5555', 'Golosinas', 'Av. Siempre Viva 123'),
@@ -105,6 +103,9 @@ INSERT INTO proveedor (nombre, contacto, telefono, rubro, direccion) VALUES
 INSERT INTO empleados (nombre_completo, fecha_nacimiento, dni, cargo, contacto, correo, sueldo) VALUES
     ('Dante Ortega', '2000-05-10', '40111222', 'Dueño', '11-5555-6666', 'dante@kiosco.com', 0),
     ('Ana López', '1998-03-22', '39222333', 'Empleada', '11-7777-8888', 'ana@kiosco.com', 350000);
+
+INSERT INTO categoria (nombre, empleado_id) VALUES
+    ('Golosinas', 1), ('Bebidas', 1), ('Cigarrillos', 1), ('Almacén', 1);
 
 INSERT INTO producto (nombre, descripcion, marca, precio, stock, categoria_id, tipo, stock_minimo) VALUES
     ('Alfajor Triple', 'Alfajor de chocolate relleno', 'Havanna', 800, 15, 1, 'normal', 5),

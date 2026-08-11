@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiosco</title>
+    <link rel="stylesheet" href="../../../estilos.css">
+    <link rel="stylesheet" href="../../componentes/slidebar.css">
+</head>
+<body>
+    <div class="layout">
+        <div id="slidebar"></div>
+        <div id="contenido">
+            <div class="cabecera">
+                <div class="titulos">
+                    <h1>Categorías</h1>
+                    <h2>Organizá el catálogo de productos</h2>
+                </div>
+                <button id="boton-nuevo" class="boton-primario">Nueva categoría</button>
+            </div>
+            <div class="contenedor-tabla">
+                <table class="tabla-datos">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Creada por</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-categorias">
+                        <tr>
+                            <td colspan="2">Cargando categorías...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-añadir-categoria" class="modal oculto">
+    <div class="modal-contenido">
+        <div class="modal-cabecera">
+            <h2>Nueva categoría</h2>
+            <span id="cerrar-modal-añadir" class="cerrar">&times;</span>
+        </div>
+        <form id="form-añadir-categoria" class="formulario-modal">
+            <label>Nombre</label>
+            <input type="text" name="nombre">
+
+            <label>Creada por</label>
+            <select name="empleado_id" id="select-empleado"></select>
+
+            <div class="acciones-form">
+                <button type="button" id="cancelar-modal-añadir">Cancelar</button>
+                <button type="submit" class="boton-primario">Añadir</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <div id="toast" class="toast oculto"></div>
+
+    <div id="modal-modificar-categoria" class="modal oculto">
+        <div class="modal-contenido">
+            <div class="modal-cabecera">
+                <h2>Modificar categoría</h2>
+                <span id="cerrar-modal-modificar" class="cerrar">&times;</span>
+            </div>
+            <form id="form-modificar-categoria" class="formulario-modal">
+                <label>Nombre</label>
+                <input type="text" name="nombre">
+
+                <div class="acciones-form">
+                    <button type="button" id="cancelar-modal-modificar">Cancelar</button>
+                    <button type="submit" class="boton-primario">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-eliminar-categoria" class="modal oculto">
+    <div class="modal-contenido modal-confirmacion">
+        <div class="icono-alerta">!</div>
+        <h2>¿Eliminar categoría?</h2>
+        <p id="mensaje-eliminar">Esta acción no se puede deshacer.</p>
+        <div class="acciones-confirmacion">
+            <button type="button" id="cancelar-eliminar" class="boton-secundario">Cancelar</button>
+            <button type="button" id="confirmar-eliminar" class="boton-peligro">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+    <script type="module" src="./categorias.js"></script>
+</body>
+</html>
+```
