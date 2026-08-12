@@ -78,7 +78,7 @@ body {
 }
 
 .celda-acciones {
-    text-align: right;
+    text-align: start;
 }
 
 .boton-accion {
@@ -87,7 +87,9 @@ body {
     color: #555;
     font-size: 0.85rem;
     cursor: pointer;
-    margin-left: 0.5rem;
+    padding: 0;
+    text-align: start;
+    padding-right: 0.5rem;
 }
 
 .boton-accion:hover {
@@ -283,4 +285,17 @@ body {
 .pestaña.activa {
     background-color: #222;
     color: #fff;
+}
+
+
+.cabecera-movimientos {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.fila-acciones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

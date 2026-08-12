@@ -1,7 +1,7 @@
 export function renderNav(paginaActiva) {
     const links = [
         { href: '/src/paginas/productos/productos.html', id: 'productos', texto: 'Productos' },
-        { href: '/src/paginas/compras/compras.html', id: 'movimientos', texto: 'Movimientos' },
+        { href: '/src/paginas/ventas/ventas.html', id: 'movimientos', texto: 'Ventas' },
         { href: '/src/paginas/proveedores/proveedores.html', id: 'proveedores', texto: 'Proveedores' },
         { href: '/src/paginas/empleados/empleados.html', id: 'empleados', texto: 'Empleados' },
         { href: '/src/paginas/categorias/categorias.html', id: 'categorias', texto: 'Categorías' },
