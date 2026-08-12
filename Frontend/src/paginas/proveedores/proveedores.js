@@ -1,5 +1,5 @@
 import { renderNav } from '../../componentes/slidebar.js';
-import { getproveedores, deleteproveedores, postproveedores, putproveedores } from '../../servicios/proveedores.js';
+import { getProveedores, deleteProveedor, postProveedor, putProveedor } from '../../servicios/proveedores.js';
 
 // EL APARTADO DEL SLIDEBAR
 
@@ -9,9 +9,9 @@ document.querySelector('#slidebar').innerHTML = renderNav('proveedores');
 
 let proveedores = [];
 
-async function cargarproveedores() {
+async function cargarProveedores() {
     try {
-        proveedores = await getproveedores();
+        proveedores = await getProveedores();
         render();
     } catch (error) {
         console.error('Algo falló al pedir los proveedores');
@@ -20,10 +20,10 @@ async function cargarproveedores() {
     }
 }
 
-async function crearproveedor(datos) {
+async function crearProveedor(datos) {
     try {
-        await postproveedores(datos);
-        await cargarproveedores();
+        await postProveedor(datos);
+        await cargarProveedores();
         mostrarToast('Proveedor agregado  correctamente');
     } catch (error) {
         console.error('Algo falló al agregar al  proveedor');
@@ -32,10 +32,10 @@ async function crearproveedor(datos) {
     }
 }
 
-async function editarproveedor(id, datos) {
+async function editarProveedor(id, datos) {
     try {
-        await putproveedores(id, datos);
-        await cargarproveedores();
+        await putProveedor(id, datos);
+        await cargarProveedores();
         mostrarToast('Proveedor actualizado correctamente');
     } catch (error) {
         console.error('Algo falló al actualizar un proveedor');
@@ -44,10 +44,10 @@ async function editarproveedor(id, datos) {
     }
 }
 
-async function eliminarproveedor(id) {
+async function eliminarProveedor(id) {
     try {
-        await deleteproveedores(id);
-        await cargarproveedores();
+        await deleteProveedor(id);
+        await cargarProveedores();
         mostrarToast('Proveedor eliminado correctamente');
     } catch (error) {
         console.error('Algo falló al eliminar un proveedor');
@@ -72,10 +72,10 @@ function mostrarToast(mensaje, tipo = 'exito') {
 // FUNCION QUE RENDERIZA LA TABLA DE PROVEEDORES
 
 function render() {
-    const tbody = document.querySelector('#tabla-proveedores tbody');
+    const tbody = document.querySelector('#tabla-proveedores');
     tbody.innerHTML = proveedores.map(elemento => `
         <tr>
-            <td>${elemento.nombre}${elemento.es_dueño ? ' <strong>(Dueño)</strong>' : ''}</td>
+            <td>${elemento.nombre}</td>
             <td>${elemento.contacto}</td>
             <td>${elemento.telefono}</td>
             <td>${elemento.rubro}</td>
@@ -126,7 +126,7 @@ document.querySelector('#cancelar-eliminar').addEventListener('click', () => {
 });
 
 document.querySelector('#confirmar-eliminar').addEventListener('click', async () => {
-    await eliminarproveedor(idAEliminar);
+    await eliminarProveedor(idAEliminar);
     modalEliminar.classList.add('oculto');
     idAEliminar = null;
 });
@@ -144,7 +144,7 @@ formAñadir.addEventListener('submit', async (e) => {
         direccion: formAñadir.elements.direccion.value,
     };
 
-    await crearproveedor(datos);
+    await crearProveedor(datos);
     modalAñadir.classList.add('oculto');
 });
 
@@ -159,7 +159,7 @@ formModificar.addEventListener('submit', async (e) => {
         direccion: formModificar.elements.direccion.value,
     };
 
-    await editarproveedor(idAEditar, datos);
+    await editarProveedor(idAEditar, datos);
     modalModificar.classList.add('oculto');
 });
 
@@ -192,4 +192,4 @@ document.querySelector('#tabla-proveedores').addEventListener('click', (e) => {
     }
 });
 
-cargarproveedores();
+cargarProveedores();
