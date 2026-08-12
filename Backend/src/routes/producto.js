@@ -53,16 +53,16 @@ router.post('/', upload.single('imagen'), async (req, res) => {
 
 router.put('/:id', upload.single('imagen'), async (req, res) => {
   try {
-    const { nombre, precio, stock, tipo } = req.body;
+    const { nombre, precio, tipo } = req.body;
 
-    if (!nombre || precio === undefined || stock === undefined || !tipo) {
-      return res.status(400).json({ error: 'Faltan campos obligatorios: nombre, precio, stock, tipo' });
+    if (!nombre || precio === undefined || !tipo) {
+      return res.status(400).json({ error: 'Faltan campos obligatorios: nombre, precio, tipo' });
     }
     if (!TIPOS_VALIDOS.includes(tipo)) {
       return res.status(400).json({ error: `tipo debe ser uno de: ${TIPOS_VALIDOS.join(', ')}` });
     }
-    if (Number(precio) < 0 || Number(stock) < 0) {
-      return res.status(400).json({ error: 'precio y stock no pueden ser negativos' });
+    if (Number(precio) < 0) {
+      return res.status(400).json({ error: 'precio no puede ser negativo' });
     }
 
     const imagen_url = req.file ? `/uploads/${req.file.filename}` : req.body.imagen_url || null;

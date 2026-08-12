@@ -55,14 +55,14 @@ async function create(data) {
 }
 
 async function update(id, data) {
-  const { nombre, descripcion, marca, precio, stock, categoria_id, tipo, stock_minimo, imagen_url } = data;
+  const { nombre, descripcion, marca, precio, categoria_id, tipo, stock_minimo, imagen_url } = data;
   const { rows } = await pool.query(
     `UPDATE producto
-     SET nombre = $1, descripcion = $2, marca = $3, precio = $4, stock = $5,
-         categoria_id = $6, tipo = $7, stock_minimo = $8, imagen_url = $9
-     WHERE id = $10
+     SET nombre = $1, descripcion = $2, marca = $3, precio = $4,
+         categoria_id = $5, tipo = $6, stock_minimo = $7, imagen_url = $8
+     WHERE id = $9
      RETURNING *`,
-    [nombre, descripcion, marca, precio, stock, categoria_id, tipo, stock_minimo, imagen_url, id]
+    [nombre, descripcion, marca, precio, categoria_id, tipo, stock_minimo, imagen_url, id]
   );
   return rows[0];
 }

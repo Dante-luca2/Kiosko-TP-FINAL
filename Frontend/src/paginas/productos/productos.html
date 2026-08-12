@@ -76,7 +76,11 @@
                 <input type="number" name="stock_minimo">
 
                 <label>Imagen</label>
-                <input type="file" name="imagen" accept="image/*">
+                <div class="selector-imagen">
+                    <label for="imagen-añadir" class="boton-secundario">Seleccionar imagen</label>
+                    <span id="nombre-archivo-añadir" class="texto-ayuda">Ningún archivo seleccionado</span>
+                </div>
+                <input type="file" name="imagen" id="imagen-añadir" accept="image/*" class="input-archivo-oculto">
 
                 <div class="acciones-form">
                     <button type="button" id="cancelar-modal-añadir" class="boton-secundario">Cancelar</button>
@@ -108,8 +112,9 @@
                 <label>Precio</label>
                 <input type="number" name="precio">
 
-                <label>Stock</label>
-                <input type="number" name="stock">
+                <label>Stock actual</label>
+                <p id="stock-actual-info" class="texto-info"></p>
+                <p class="texto-ayuda">El stock no se edita acá — se modifica registrando una Venta, Compra o Ajuste desde Movimientos.</p>
 
                 <label>Categoria</label>
                 <select name="categoria_id" id="select-categoria-modificar"></select>
@@ -121,7 +126,11 @@
                 <input type="number" name="stock_minimo">
 
                 <label>Imagen</label>
-                <input type="file" name="imagen" accept="image/*">
+                <div class="selector-imagen">
+                    <label for="imagen-modificar" class="boton-secundario">Seleccionar imagen</label>
+                    <span id="nombre-archivo-modificar" class="texto-ayuda">Ningún archivo seleccionado</span>
+                </div>
+                <input type="file" name="imagen" id="imagen-modificar" accept="image/*" class="input-archivo-oculto">
                 <input type="hidden" name="imagen_url">
 
                 <div class="acciones-form">

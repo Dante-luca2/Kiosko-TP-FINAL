@@ -299,3 +299,35 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+.texto-info {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 0 4px;
+}
+
+.texto-ayuda {
+    font-size: 0.8rem;
+    color: #888;
+    margin: 0 0 0.75rem;
+}
+
+.input-archivo-oculto {
+    display: none;
+}
+
+.selector-imagen {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.selector-imagen .boton-secundario {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.selector-imagen .texto-ayuda {
+    margin: 0;
+}

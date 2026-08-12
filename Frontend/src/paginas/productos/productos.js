@@ -128,6 +128,7 @@ let idAEliminar = null;
 
 botonNuevo.addEventListener('click', async () => {
     formAñadir.reset();
+    document.querySelector('#nombre-archivo-añadir').textContent = 'Ningún archivo seleccionado';
     await cargarCategorias();
     modalAñadir.classList.remove('oculto');
 });
@@ -162,6 +163,18 @@ document.querySelector('#cerrar-modal-imagen').addEventListener('click', () => {
     imagenGrande.src = '';
 });
 
+// EL APARTADO DEL NOMBRE DE ARCHIVO ELEGIDO (Imagen)
+
+document.querySelector('#imagen-añadir').addEventListener('change', (e) => {
+    const nombreArchivo = e.target.files[0]?.name || 'Ningún archivo seleccionado';
+    document.querySelector('#nombre-archivo-añadir').textContent = nombreArchivo;
+});
+
+document.querySelector('#imagen-modificar').addEventListener('change', (e) => {
+    const nombreArchivo = e.target.files[0]?.name || 'Ningún archivo seleccionado';
+    document.querySelector('#nombre-archivo-modificar').textContent = nombreArchivo;
+});
+
 // EL APARTADO DE LOS SUBMIT DE LOS FORMULARIOS
 
 formAñadir.addEventListener('submit', async (e) => {
@@ -191,7 +204,6 @@ formModificar.addEventListener('submit', async (e) => {
         descripcion: formModificar.elements.descripcion.value,
         marca: formModificar.elements.marca.value,
         precio: formModificar.elements.precio.value,
-        stock: formModificar.elements.stock.value,
         categoria_id: formModificar.elements.categoria_id.value,
         tipo: formModificar.elements.tipo.value,
         stock_minimo: formModificar.elements.stock_minimo.value,
@@ -229,10 +241,13 @@ document.querySelector('#tabla-producto').addEventListener('click', (e) => {
         formModificar.elements.descripcion.value = productoEncontrado.descripcion;
         formModificar.elements.marca.value = productoEncontrado.marca;
         formModificar.elements.precio.value = productoEncontrado.precio;
-        formModificar.elements.stock.value = productoEncontrado.stock;
+        document.querySelector('#stock-actual-info').textContent = productoEncontrado.stock;
         formModificar.elements.tipo.value = productoEncontrado.tipo;
         formModificar.elements.stock_minimo.value = productoEncontrado.stock_minimo;
         formModificar.elements.imagen_url.value = productoEncontrado.imagen_url || '';
+        document.querySelector('#nombre-archivo-modificar').textContent = productoEncontrado.imagen_url
+            ? `Imagen actual: ${productoEncontrado.imagen_url.split('/').pop()}`
+            : 'Ningún archivo seleccionado';
 
         modalModificar.classList.remove('oculto');
     }
