@@ -1,5 +1,6 @@
 import { renderNav } from '../../componentes/slidebar.js';
 import { getProductos, deleteProducto, postProducto, putProducto, urlCompleta } from '../../servicios/productos.js';
+import { getCategorias } from '../../servicios/categorias.js';
 
 // EL APARTADO DEL SLIDEBAR
 
@@ -8,6 +9,20 @@ document.querySelector('#slidebar').innerHTML = renderNav('productos');
 // FUNCIONES DE LOS SERVICIOS
 
 let producto = [];
+let categorias = [];
+
+async function cargarCategorias() {
+    try {
+        categorias = await getCategorias();
+        const opciones = categorias.map(cat => `<option value="${cat.id}">${cat.nombre}</option>`).join('');
+        document.querySelector('#select-categoria-añadir').innerHTML = opciones;
+        document.querySelector('#select-categoria-modificar').innerHTML = opciones;
+    } catch (error) {
+        console.error('Algo falló al cargar las categorías');
+        console.error('Status:', error.response?.status);
+        console.error('Mensaje:', error.response?.data);
+    }
+}
 
 async function cargarProductos() {
     try {
@@ -80,7 +95,7 @@ function render() {
             <td>${elemento.marca}</td>
             <td>$${elemento.precio}</td>
             <td>${elemento.stock}</td>
-            <td>${elemento.categoria_id}</td>
+            <td>${elemento.categoria_nombre}</td>
             <td>${elemento.tipo}</td>
             <td>${elemento.stock_minimo}</td>
             <td>
@@ -111,8 +126,9 @@ const formModificar = document.querySelector('#form-modificar-producto');
 let idAEditar = null;
 let idAEliminar = null;
 
-botonNuevo.addEventListener('click', () => {
+botonNuevo.addEventListener('click', async () => {
     formAñadir.reset();
+    await cargarCategorias();
     modalAñadir.classList.remove('oculto');
 });
 
@@ -206,12 +222,14 @@ document.querySelector('#tabla-producto').addEventListener('click', (e) => {
         const productoEncontrado = producto.find(p => p.id == id);
         idAEditar = id;
         formModificar.reset();
+        cargarCategorias().then(() => {
+            formModificar.elements.categoria_id.value = productoEncontrado.categoria_id;
+        });
         formModificar.elements.nombre.value = productoEncontrado.nombre;
         formModificar.elements.descripcion.value = productoEncontrado.descripcion;
         formModificar.elements.marca.value = productoEncontrado.marca;
         formModificar.elements.precio.value = productoEncontrado.precio;
         formModificar.elements.stock.value = productoEncontrado.stock;
-        formModificar.elements.categoria_id.value = productoEncontrado.categoria_id;
         formModificar.elements.tipo.value = productoEncontrado.tipo;
         formModificar.elements.stock_minimo.value = productoEncontrado.stock_minimo;
         formModificar.elements.imagen_url.value = productoEncontrado.imagen_url || '';
