@@ -24,6 +24,10 @@ async function cargarDatos() {
         cargarSelect('#select-proveedor', proveedores, 'nombre');
         cargarSelect('#select-empleado', empleados, 'nombre_completo');
 
+        cargarSelect('#select-producto-busqueda', productos, 'nombre', 'Todos los productos');
+        cargarSelect('#select-proveedor-busqueda', proveedores, 'nombre', 'Todos los proveedores');
+        cargarSelect('#select-empleado-busqueda', empleados, 'nombre_completo', 'Todos los empleados');
+
         await cargarCompras();
     } catch (error) {
         console.error('Algo falló al pedir los datos base');
@@ -32,11 +36,21 @@ async function cargarDatos() {
     }
 }
 
-function cargarSelect(selector, lista, campoNombre) {
+function cargarSelect(selector, lista, campoNombre, etiquetaTodos = null) {
     const select = document.querySelector(selector);
-    select.innerHTML = lista.map(elemento => `
-        <option value="${elemento.id}">${elemento[campoNombre]}</option>
-    `).join('');
+    const opciones = lista.map(elemento => `<option value="${elemento.id}">${elemento[campoNombre]}</option>`).join('');
+    select.innerHTML = etiquetaTodos ? `<option value="">${etiquetaTodos}</option>${opciones}` : opciones;
+}
+
+async function buscarCompra(filtros) {
+    try {
+        compras = await getCompras(filtros);
+        render();
+    } catch (error) {
+        console.error('Algo falló al buscar compras');
+        console.error('Status:', error.response?.status);
+        console.error('Mensaje:', error.response?.data);
+    }
 }
 
 async function cargarCompras() {
@@ -64,6 +78,17 @@ async function crearCompra(datos) {
         mostrarToast('No se pudo crear la compra', 'error');
     }
 }
+
+// EL APARTADO DE LA BARRA DE BUSQUEDA
+
+document.querySelector('#boton-busqueda').addEventListener('click', () => {
+    const filtros = {
+        producto_id: document.querySelector('#select-producto-busqueda').value,
+        proveedor_id: document.querySelector('#select-proveedor-busqueda').value,
+        empleado_id: document.querySelector('#select-empleado-busqueda').value,
+    };
+    buscarCompra(filtros);
+});
 
 // EL APARTADO DE RENDERIZAR LA TABLA
 

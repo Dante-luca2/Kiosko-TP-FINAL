@@ -9,6 +9,17 @@ document.querySelector('#slidebar').innerHTML = renderNav('proveedores');
 
 let proveedores = [];
 
+async function buscarProveedores(filtros) {
+    try {
+        proveedores = await getProveedores(filtros);
+        render();
+    } catch (error) {
+        console.error('Algo fallo al buscar proveedores');
+        console.error('Status:', error.response?.status);
+        console.error('Mensaje:', error.response?.data);
+    }
+}
+
 async function cargarProveedores() {
     try {
         proveedores = await getProveedores();
@@ -55,6 +66,21 @@ async function eliminarProveedor(id) {
         console.error('Mensaje:', error.response?.data);
     }
 }
+
+// FUNCION BARRA DE BUSQUEDA
+
+document.querySelector('#boton-busqueda').addEventListener('click', () => {
+    const filtros = {
+        nombre: document.querySelector('#input-busqueda').value,
+    };
+    buscarProveedores(filtros);
+});
+
+document.querySelector('#input-busqueda').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        document.querySelector('#boton-busqueda').click();
+    }
+});
 
 // FUNCION MOSTRAR MENSAJE AL TOAST
 

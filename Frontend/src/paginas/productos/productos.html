@@ -11,12 +11,25 @@
     <div class="layout">
         <div id="slidebar"></div>
         <div id="contenido">
-            <div class="cabecera">
+            <div class="cabecera cabecera-apilada">
                 <div class="titulos">
                     <h1>Productos</h1>
-                    <h2>Que objetos hay disponible</h2>
+                    <h2>Catálogo de productos y su stock disponible</h2>
                 </div>
-                <button id="boton-nuevo" class="boton-primario">Agregar Producto</button>
+                <div class="fila-acciones">
+                    <div id="barra-busqueda" class="barra-busqueda">
+                        <input type="text" id="input-marca" placeholder="Buscar por marca...">
+                        <select id="select-tipo-busqueda">
+                            <option value="">Todos los tipos</option>
+                            <option value="normal">Normal</option>
+                            <option value="limitado">Limitado</option>
+                            <option value="estacional">Estacional</option>
+                        </select>
+                        <select id="select-categoria-busqueda"></select>
+                        <button type="button" id="boton-busqueda" class="boton-secundario">Buscar</button>
+                    </div>
+                    <button id="boton-nuevo" class="boton-primario">Agregar Producto</button>
+                </div>
             </div>
             <div class="contenedor-tabla">
                 <table class="tabla-datos">

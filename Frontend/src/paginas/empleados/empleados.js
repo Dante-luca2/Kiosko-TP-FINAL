@@ -9,6 +9,17 @@ document.querySelector('#slidebar').innerHTML = renderNav('empleados');
 
 let empleados = [];
 
+async function buscarEmpleados(filtros) {
+    try {
+        empleados = await getEmpleados(filtros);
+        render();
+    } catch (error) {
+        console.error('Algo falló al buscar empleados');
+        console.error('Status:', error.response?.status);
+        console.error('Mensaje:', error.response?.data);
+    }
+}
+
 async function cargarEmpleados() {
     try {
         empleados = await getEmpleados();
@@ -55,6 +66,21 @@ async function eliminarEmpleado(id) {
         console.error('Mensaje:', error.response?.data);
     }
 }
+
+// FUNCION BARRA DE BUSQUEDA
+
+document.querySelector('#boton-busqueda').addEventListener('click', () => {
+    const filtros = {
+        nombre: document.querySelector('#input-busqueda').value,
+    };
+    buscarEmpleados(filtros);
+});
+
+document.querySelector('#input-busqueda').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        document.querySelector('#boton-busqueda').click();
+    }
+});
 
 // FUNCION MOSTRAR MENSAJE AL TOAST
 
