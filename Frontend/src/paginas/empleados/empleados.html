@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiosco</title>
+    <link rel="icon" type="image/png" href="../../assets/icono.png">
     <link rel="stylesheet" href="../../../estilos.css">
     <link rel="stylesheet" href="../../componentes/slidebar.css">
 </head>
@@ -11,12 +12,18 @@
     <div class="layout">
         <div id="slidebar"></div>
         <div id="contenido">
-            <div class="cabecera">
+            <div class="cabecera cabecera-apilada">
                 <div class="titulos">
                     <h1>Empleados</h1>
                     <h2>Personal que opera el sistema</h2>
                 </div>
-                <button id="boton-nuevo" class="boton-primario">Nuevo empleado</button>
+                <div class="fila-acciones">
+                    <div id="barra-busqueda" class="barra-busqueda">
+                        <input type="text" id="input-busqueda" placeholder="Buscar por nombre...">
+                        <button type="button" id="boton-busqueda" class="boton-secundario">Buscar</button>
+                    </div>
+                    <button id="boton-nuevo" class="boton-primario">Nuevo empleado</button>
+                </div>
             </div>
             <div class="contenedor-tabla">
                 <table class="tabla-datos">

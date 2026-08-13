@@ -17,8 +17,20 @@ async function cargarCategorias() {
         const opciones = categorias.map(cat => `<option value="${cat.id}">${cat.nombre}</option>`).join('');
         document.querySelector('#select-categoria-añadir').innerHTML = opciones;
         document.querySelector('#select-categoria-modificar').innerHTML = opciones;
+        document.querySelector('#select-categoria-busqueda').innerHTML = `<option value="">Todas las categorías</option>${opciones}`;
     } catch (error) {
         console.error('Algo falló al cargar las categorías');
+        console.error('Status:', error.response?.status);
+        console.error('Mensaje:', error.response?.data);
+    }
+}
+
+async function buscarProducto(filtros) {
+    try {
+        producto = await getProductos(filtros);
+        render();
+    } catch (error) {
+        console.error('Algo falló al buscar productos');
         console.error('Status:', error.response?.status);
         console.error('Mensaje:', error.response?.data);
     }
@@ -70,6 +82,23 @@ async function eliminarProducto(id) {
         console.error('Mensaje:', error.response?.data);
     }
 }
+
+// FUNCION BARRA DE BUSQUEDA
+
+document.querySelector('#boton-busqueda').addEventListener('click', () => {
+    const filtros = {
+        marca: document.querySelector('#input-marca').value,
+        tipo: document.querySelector('#select-tipo-busqueda').value,
+        categoria_id: document.querySelector('#select-categoria-busqueda').value,
+    };
+    buscarProducto(filtros);
+});
+
+document.querySelector('#input-marca').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        document.querySelector('#boton-busqueda').click();
+    }
+});
 
 // FUNCION MOSTRAR MENSAJE AL TOAST
 
@@ -259,4 +288,5 @@ document.querySelector('#tabla-producto').addEventListener('click', (e) => {
     }
 });
 
+cargarCategorias();
 cargarProductos();

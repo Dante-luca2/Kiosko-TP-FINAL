@@ -21,6 +21,9 @@ async function cargarDatos() {
         cargarSelect('#select-producto', productos, 'nombre');
         cargarSelect('#select-empleado', empleados, 'nombre_completo');
 
+        cargarSelect('#select-producto-busqueda', productos, 'nombre', 'Todos los productos');
+        cargarSelect('#select-empleado-busqueda', empleados, 'nombre_completo', 'Todos los empleados');
+
         await cargarAjustes();
     } catch (error) {
         console.error('Algo falló al pedir los datos base');
@@ -29,11 +32,21 @@ async function cargarDatos() {
     }
 }
 
-function cargarSelect(selector, lista, campoNombre) {
+function cargarSelect(selector, lista, campoNombre, etiquetaTodos = null) {
     const select = document.querySelector(selector);
-    select.innerHTML = lista.map(elemento => `
-        <option value="${elemento.id}">${elemento[campoNombre]}</option>
-    `).join('');
+    const opciones = lista.map(elemento => `<option value="${elemento.id}">${elemento[campoNombre]}</option>`).join('');
+    select.innerHTML = etiquetaTodos ? `<option value="">${etiquetaTodos}</option>${opciones}` : opciones;
+}
+
+async function buscarAjuste(filtros) {
+    try {
+        ajustes = await getAjustes(filtros);
+        render();
+    } catch (error) {
+        console.error('Algo falló al buscar ajustes');
+        console.error('Status:', error.response?.status);
+        console.error('Mensaje:', error.response?.data);
+    }
 }
 
 async function cargarAjustes() {
@@ -74,6 +87,16 @@ async function eliminarAjuste(id) {
         mostrarToast('No se pudo eliminar el ajuste', 'error');
     }
 }
+
+// EL APARTADO DE LA BARRA DE BUSQUEDA
+
+document.querySelector('#boton-busqueda').addEventListener('click', () => {
+    const filtros = {
+        producto_id: document.querySelector('#select-producto-busqueda').value,
+        empleado_id: document.querySelector('#select-empleado-busqueda').value,
+    };
+    buscarAjuste(filtros);
+});
 
 // EL APARTADO DE RENDERIZAR LA TABLA
 

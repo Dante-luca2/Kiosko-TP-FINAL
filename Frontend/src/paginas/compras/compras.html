@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiosco</title>
+    <link rel="icon" type="image/png" href="../../assets/icono.png">
     <link rel="stylesheet" href="../../../estilos.css">
     <link rel="stylesheet" href="../../componentes/slidebar.css">
 </head>
@@ -11,7 +12,7 @@
     <div class="layout">
         <div id="slidebar"></div>
         <div id="contenido">
-            <div class="cabecera cabecera-movimientos">
+            <div class="cabecera cabecera-apilada">
                 <div class="titulos">
                     <h1>Movimientos</h1>
                     <h2>Los movimientos relacionados con las compras</h2>
@@ -23,6 +24,12 @@
                         <a href="../ajustes/ajustes.html" class="pestaña">Ajustes</a>
                     </div>
                     <button type="button" id="boton-nuevo" class="boton-primario">Registrar compra</button>
+                </div>
+                <div id="barra-busqueda" class="barra-busqueda">
+                    <select id="select-producto-busqueda"></select>
+                    <select id="select-proveedor-busqueda"></select>
+                    <select id="select-empleado-busqueda"></select>
+                    <button type="button" id="boton-busqueda" class="boton-secundario">Buscar</button>
                 </div>
             </div>
             <div class="contenedor-tabla">
