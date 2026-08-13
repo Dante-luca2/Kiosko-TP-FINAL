@@ -1,5 +1,4 @@
---Orden de creación: categoria, proveedor y empleados van primero porque no dependen de nadie; producto depende de categoria; y venta/compra/ajuste van al final 
---porque dependen de producto, proveedor y empleados.
+
 
 
 -- PROVEEDOR
