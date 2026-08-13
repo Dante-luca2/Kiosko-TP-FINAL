@@ -22,7 +22,7 @@ El proyecto modela un proceso real con reglas de negocio concretas — no es sol
 
 ## Uso de Inteligencia Artificial
 
-Durante el desarrollo se usaron asistentes de IA (Claude, y asistentes de código integrados al editor) como apoyo para: redactar y mantener actualizado `APICONTRACT.md`, generar documentación (este README, el README de `db/`), y para debuggear puntualmente errores de integración entre frontend y backend (por ejemplo, imports rotos por rutas de archivos mal ubicadas). El código resultante fue revisado y es comprendido por el equipo — cualquier integrante puede explicar, modificar y debuggear cualquier parte del proyecto.
+Durante el desarrollo se usaron asistentes de IA (Claude, y asistentes de código integrados al editor) como apoyo para: redactar y mantener actualizado `APICONTRACT.md`, generar documentación (este README, el README de `db/`), y para debuggear puntualmente errores de integración entre frontend y backend (por ejemplo, imports rotos por rutas de archivos mal ubicadas). El código resultante fue revisado y es comprendido por el equipo.
 
 ## Entidades de la base de datos
 
