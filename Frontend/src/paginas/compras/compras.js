@@ -1,5 +1,5 @@
 import { renderNav } from '../../componentes/slidebar.js';
-import { getCompras, postCompra } from '../../servicios/compras.js';
+import { getCompras, postCompra, deleteCompra } from '../../servicios/compras.js';
 import { getProductos } from '../../servicios/productos.js';
 import { getProveedores } from '../../servicios/proveedores.js';
 import { getEmpleados } from '../../servicios/empleados.js';
@@ -64,7 +64,7 @@ async function cargarCompras() {
     }
 }
 
-// EL APARTADO DE CREAR (llamada al backend)
+// EL APARTADO DE CREAR Y ELIMINAR (llamadas al backend)
 
 async function crearCompra(datos) {
     try {
@@ -76,6 +76,19 @@ async function crearCompra(datos) {
         console.error('Status:', error.response?.status);
         console.error('Mensaje:', error.response?.data);
         mostrarToast('No se pudo crear la compra', 'error');
+    }
+}
+
+async function eliminarCompra(id) {
+    try {
+        await deleteCompra(id);
+        await cargarCompras();
+        mostrarToast('Compra eliminada correctamente');
+    } catch (error) {
+        console.error('Algo falló al eliminar una compra');
+        console.error('Status:', error.response?.status);
+        console.error('Mensaje:', error.response?.data);
+        mostrarToast(error.response?.data?.error || 'No se pudo eliminar la compra', 'error');
     }
 }
 
@@ -103,6 +116,9 @@ function render() {
             <td>$${elemento.precio_unitario}</td>
             <td>$${elemento.cantidad * elemento.precio_unitario}</td>
             <td>${new Date(elemento.fecha).toLocaleDateString('es-AR')}</td>
+            <td class="celda-acciones">
+                <button class="boton-accion eliminar" data-id="${elemento.id}">Eliminar</button>
+            </td>
         </tr>
     `).join('');
 }
@@ -150,6 +166,33 @@ formAñadir.addEventListener('submit', async (e) => {
 
     await crearCompra(datos);
     modalAñadir.classList.add('oculto');
+});
+
+// EL APARTADO DEL MODAL DE CONFIRMAR ELIMINAR (eventos)
+
+const modalEliminar = document.querySelector('#modal-eliminar-compra');
+const mensajeEliminar = document.querySelector('#mensaje-eliminar-compra');
+let idAEliminar = null;
+
+document.querySelector('#tabla-compras').addEventListener('click', (e) => {
+    const boton = e.target.closest('button');
+    if (!boton) return;
+
+    idAEliminar = boton.dataset.id;
+    const compra = compras.find(c => c.id == idAEliminar);
+    mensajeEliminar.textContent = `Esta acción no se puede deshacer. Se va a eliminar la compra de ${compra.producto_nombre} registrada el ${new Date(compra.fecha).toLocaleDateString('es-AR')}.`;
+    modalEliminar.classList.remove('oculto');
+});
+
+document.querySelector('#cancelar-eliminar-compra').addEventListener('click', () => {
+    modalEliminar.classList.add('oculto');
+    idAEliminar = null;
+});
+
+document.querySelector('#confirmar-eliminar-compra').addEventListener('click', async () => {
+    await eliminarCompra(idAEliminar);
+    modalEliminar.classList.add('oculto');
+    idAEliminar = null;
 });
 
 // INICIO

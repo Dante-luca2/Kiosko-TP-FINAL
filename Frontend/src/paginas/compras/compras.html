@@ -43,11 +43,12 @@
                             <th scope="col">Precio unitario</th>
                             <th scope="col">Total</th>
                             <th scope="col">Fecha</th>
+                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tabla-compras">
                         <tr>
-                            <td colspan="7">Cargando compras...</td>
+                            <td colspan="8">Cargando compras...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -82,6 +83,18 @@
                     <button type="submit" class="boton-primario">Guardar</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div id="modal-eliminar-compra" class="modal oculto">
+        <div class="modal-contenido modal-confirmacion">
+            <div class="icono-alerta">!</div>
+            <h2>¿Eliminar compra?</h2>
+            <p id="mensaje-eliminar-compra">Esta acción no se puede deshacer.</p>
+            <div class="acciones-confirmacion">
+                <button type="button" id="cancelar-eliminar-compra" class="boton-secundario">Cancelar</button>
+                <button type="button" id="confirmar-eliminar-compra" class="boton-peligro">Eliminar</button>
+            </div>
         </div>
     </div>
 
