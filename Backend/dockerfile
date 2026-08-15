@@ -9,7 +9,6 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node_modules/.bin/nodemon", "src/index.js"]
+##CMD ["node_modules/.bin/nodemon", "src/index.js"]
 
-##CMD ["node", "src/index.js"]
-#version produccion
+CMD ["node", "src/index.js"]
